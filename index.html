@@ -7,45 +7,280 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <style>
-    :root{--primary:#2563eb;--dark:#0f172a;--muted:#64748b;--light:#f8fafc;--border:#e2e8f0;--card:#fff;--good:#16a34a;--bad:#dc2626;--warn:#f59e0b;--shadow:0 20px 45px rgba(15,23,42,.08)}
-    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} body{background:linear-gradient(135deg,#eef4ff,#f8fafc 45%,#fff);color:var(--dark);min-height:100vh} header{padding:28px 7%;display:flex;justify-content:space-between;align-items:center;gap:18px}.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.25rem}.logo-icon{width:44px;height:44px;border-radius:14px;background:var(--primary);display:grid;place-items:center;color:white;box-shadow:0 10px 25px rgba(37,99,235,.25)}.badge{border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;padding:8px 14px;border-radius:999px;font-weight:800;font-size:.85rem}.hero{padding:28px 7% 42px;display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}.hero h1{font-size:clamp(2.2rem,5vw,4.4rem);line-height:1.02;letter-spacing:-.06em;margin-bottom:18px}.hero p{color:var(--muted);font-size:1.06rem;line-height:1.75;max-width:720px}.hero-card,.panel,.score-card,.insight-card,.metric-box{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow)}.hero-card{padding:26px}.circle{width:180px;height:180px;border-radius:50%;background:conic-gradient(var(--primary) 78%,#dbeafe 0);display:grid;place-items:center;margin:18px auto;position:relative}.circle:after{content:"";position:absolute;width:128px;height:128px;background:white;border-radius:50%}.circle span{z-index:1;font-size:2.1rem;font-weight:900}.feature-strip{padding:0 7% 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.feature-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(15,23,42,.06)}.feature-card strong{display:block;margin-bottom:6px}.feature-card span{color:var(--muted);font-size:.88rem;line-height:1.45} main{padding:20px 7% 70px}.section-title{margin-bottom:22px}.section-title h2{font-size:clamp(1.8rem,3vw,2.7rem);letter-spacing:-.04em;margin-bottom:8px}.section-title p,.helper{color:var(--muted);line-height:1.6}.setup-alert{background:#0f172a;color:white;border-radius:20px;padding:18px 20px;margin-bottom:24px}.setup-alert code{background:#020617;color:#bfdbfe;padding:3px 6px;border-radius:6px}.analyzer{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.panel{padding:24px}.panel h3{font-size:1.2rem;margin-bottom:8px}.upload-box{border:2px dashed #bfdbfe;background:#eff6ff;border-radius:20px;padding:24px;text-align:center;margin:16px 0}input[type=file]{width:100%;margin-top:12px}input[type=text],textarea{width:100%;border:1px solid var(--border);border-radius:16px;padding:15px;font-size:.95rem;line-height:1.6;outline:none;background:#fff}input[type=text]{margin-bottom:12px}textarea{resize:vertical;min-height:230px}textarea:focus,input[type=text]:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.08)}.controls{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}button{border:0;cursor:pointer;border-radius:14px;padding:14px 18px;font-weight:900;transition:.2s}.btn-primary{background:var(--primary);color:white;box-shadow:0 14px 25px rgba(37,99,235,.22)}.btn-secondary{background:white;color:var(--dark);border:1px solid var(--border)}button:hover{transform:translateY(-1px)}.loader{display:none;margin-top:14px;color:var(--primary);font-weight:900}.results{display:none;margin-top:42px}.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.metric-box{padding:18px}.metric-box span{display:block;color:var(--muted);font-size:.82rem;font-weight:800;margin-bottom:8px}.metric-box strong{font-size:1.45rem}.result-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:24px}.score-card{padding:24px;text-align:center}.score-number{font-size:4rem;font-weight:900;letter-spacing:-.06em}.score-label{display:inline-flex;padding:8px 12px;border-radius:999px;font-weight:900;font-size:.9rem;background:#dcfce7;color:#166534;margin:10px}.progress,.mini-progress{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin:18px 0}.progress-bar,.mini-progress div{height:100%;background:var(--primary);width:0;transition:width .7s}.breakdown-row{display:grid;grid-template-columns:120px 1fr 48px;gap:10px;align-items:center;color:var(--muted);font-weight:800;font-size:.86rem}.insights{display:grid;gap:18px}.insight-card{padding:22px}.insight-card h4{margin-bottom:12px}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border-radius:999px;padding:8px 12px;font-size:.84rem;font-weight:800;background:#f1f5f9;color:#334155;border:1px solid var(--border)}.match{background:#dcfce7;color:#166534;border-color:#bbf7d0}.missing{background:#fee2e2;color:#991b1b;border-color:#fecaca}ul{padding-left:20px;color:var(--muted);line-height:1.8}.status{font-weight:900}.ok{color:var(--good)}.fail{color:var(--bad)}footer{text-align:center;color:var(--muted);padding:30px 7%;background:white;border-top:1px solid var(--border)}@media(max-width:980px){.hero,.analyzer,.result-grid{grid-template-columns:1fr}.feature-strip,.metrics-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){header{flex-direction:column;align-items:flex-start}.feature-strip,.metrics-grid{grid-template-columns:1fr}}
+    :root{
+      --primary:#2563eb;--accent:#7c3aed;--dark:#0f172a;--muted:#64748b;--border:#e2e8f0;--good:#16a34a;--bad:#dc2626;--warn:#f59e0b;
+      --bg1:#eef4ff;--bg2:#f8fafc;--card:#ffffff;--soft:#f8fafc;--text:#0f172a;--shadow:0 24px 70px rgba(15,23,42,.10)
+    }
+    body.dark{--bg1:#020617;--bg2:#0f172a;--card:#111827;--soft:#0b1220;--text:#f8fafc;--dark:#f8fafc;--muted:#94a3b8;--border:#253247;--shadow:0 24px 70px rgba(0,0,0,.30)}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;color:var(--text);background:radial-gradient(circle at top left,rgba(37,99,235,.16),transparent 34%),radial-gradient(circle at top right,rgba(124,58,237,.13),transparent 34%),linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--card));transition:.25s}
+    header{position:sticky;top:0;z-index:10;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;gap:16px;background:rgba(248,250,252,.74);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+    body.dark header{background:rgba(2,6,23,.75)}
+    .logo{display:flex;align-items:center;gap:12px;font-size:1.15rem;font-weight:950;letter-spacing:-.03em}.logo-icon{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;color:#fff;box-shadow:0 16px 36px rgba(37,99,235,.28)}
+    .nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.nav a{text-decoration:none;color:var(--text);font-weight:850;padding:10px 12px;border-radius:999px}.nav a:hover{background:var(--card);box-shadow:0 10px 25px rgba(15,23,42,.07)}
+    .badge{border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;padding:9px 14px;border-radius:999px;font-weight:900;font-size:.84rem}
+    body.dark .badge{background:#172554;color:#bfdbfe;border-color:#1e40af}
+    .hero{padding:58px 7% 34px;display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:9px 14px;background:var(--card);border:1px solid var(--border);border-radius:999px;box-shadow:0 12px 30px rgba(15,23,42,.07);font-weight:900;color:#1d4ed8;margin-bottom:22px;animation:fadeUp .55s ease both}.pulse{width:9px;height:9px;background:var(--good);border-radius:50%;box-shadow:0 0 0 6px rgba(22,163,74,.13)}
+    h1{font-size:clamp(2.5rem,5.4vw,5rem);line-height:.98;letter-spacing:-.07em;margin-bottom:22px;animation:fadeUp .7s ease both}.gradient{background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:1.08rem;line-height:1.8;max-width:760px;animation:fadeUp .85s ease both}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;animation:fadeUp 1s ease both}.btn{border:0;cursor:pointer;border-radius:16px;padding:14px 18px;font-weight:950;transition:.22s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primary{background:linear-gradient(135deg,var(--primary),#1d4ed8);color:#fff;box-shadow:0 18px 34px rgba(37,99,235,.26)}.primary:hover,.secondary:hover{transform:translateY(-2px)}.secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
+    .hero-card,.panel,.score-card,.insight,.metric,.tool-card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+    body.dark .hero-card,body.dark .panel,body.dark .score-card,body.dark .insight,body.dark .metric,body.dark .tool-card{background:rgba(17,24,39,.92)}
+    .hero-card{padding:28px;animation:floatIn .8s ease both}.hero-card-top{display:flex;justify-content:space-between;align-items:center}.live{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:#dcfce7;color:#166534;padding:8px 12px;font-weight:950;font-size:.82rem}
+    .ring{width:204px;height:204px;border-radius:50%;background:conic-gradient(var(--primary) 86%,#dbeafe 0);display:grid;place-items:center;margin:22px auto;position:relative}.ring:after{content:"";position:absolute;width:148px;height:148px;background:var(--card);border-radius:50%;box-shadow:inset 0 0 0 1px var(--border)}.ring span{z-index:1;font-size:2.6rem;font-weight:950;letter-spacing:-.06em}
+    .mini{display:grid;gap:12px}.mini div{display:flex;justify-content:space-between;background:var(--soft);border:1px solid var(--border);border-radius:18px;padding:14px 16px;color:var(--muted);font-weight:850}.mini strong{color:var(--text)}
+    .features{padding:0 7% 34px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.feature{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 12px 30px rgba(15,23,42,.06);transition:.25s}.feature:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.feature-icon{width:38px;height:38px;border-radius:14px;background:#eff6ff;display:grid;place-items:center;margin-bottom:12px}.feature strong{display:block;margin-bottom:7px}.feature span{color:var(--muted);font-size:.9rem;line-height:1.5}
+    main{padding:22px 7% 76px}.section-title{margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}.section-title h2{font-size:clamp(1.9rem,3vw,2.8rem);letter-spacing:-.045em;margin-bottom:8px}.helper,.section-title p{color:var(--muted);line-height:1.65}
+    .status-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border);background:var(--card);border-radius:999px;padding:10px 14px;font-weight:950;box-shadow:0 12px 30px rgba(15,23,42,.07)}.dot{width:10px;height:10px;border-radius:50%;background:var(--warn);box-shadow:0 0 0 5px rgba(245,158,11,.13)}.status-pill.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(22,163,74,.13)}.status-pill.fail .dot{background:var(--bad);box-shadow:0 0 0 5px rgba(220,38,38,.13)}
+    .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.tool-card{padding:18px}.tool-card strong{display:block;margin-bottom:6px}.tool-card span{color:var(--muted);font-size:.88rem}
+    .analyzer{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.panel{padding:24px}.panel h3{font-size:1.18rem;margin-bottom:8px;letter-spacing:-.02em}.upload{border:2px dashed #bfdbfe;background:linear-gradient(135deg,#eff6ff,#f8fbff);border-radius:22px;padding:24px;text-align:center;margin:17px 0}input[type=file]{width:100%;margin-top:12px}
+    input[type=text],textarea,select{width:100%;border:1px solid var(--border);border-radius:18px;padding:15px;font-size:.95rem;line-height:1.6;outline:none;background:var(--card);color:var(--text);transition:.2s}input[type=text],select{margin-bottom:12px}textarea{resize:vertical;min-height:248px}textarea:focus,input[type=text]:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.08)}
+    .sample-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.sample-row select{margin-bottom:0}.sample-note{font-size:.82rem;color:var(--muted);margin-bottom:12px}
+    .controls{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}.loader{display:none;margin-top:14px;color:var(--primary);font-weight:950}.results{display:none;margin-top:48px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.metric{padding:20px}.metric span{display:block;color:var(--muted);font-size:.82rem;font-weight:850;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}.metric strong{font-size:1.55rem;letter-spacing:-.04em}
+    .result-grid{display:grid;grid-template-columns:.76fr 1.24fr;gap:24px}.score-card{padding:26px;text-align:center;position:sticky;top:112px;background:var(--card)}.score-number{font-size:4.2rem;font-weight:950;letter-spacing:-.07em}.score-label{display:inline-flex;padding:8px 12px;border-radius:999px;font-weight:950;font-size:.9rem;background:#dcfce7;color:#166534;margin:10px}
+    .progress,.mini-progress{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin:18px 0}.progress-bar,.mini-progress div{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));width:0;transition:width .7s ease}.breakdown{display:grid;grid-template-columns:120px 1fr 48px;gap:10px;align-items:center;color:var(--muted);font-weight:850;font-size:.86rem}
+    .insights{display:grid;gap:18px}.insight{padding:22px;background:var(--card)}.insight h4{margin-bottom:12px}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border-radius:999px;padding:8px 12px;font-size:.84rem;font-weight:850;background:#f1f5f9;color:#334155;border:1px solid var(--border)}.match{background:#dcfce7;color:#166534;border-color:#bbf7d0}.missing{background:#fee2e2;color:#991b1b;border-color:#fecaca}ul{padding-left:20px;color:var(--muted);line-height:1.85}
+    .quality-list{display:grid;gap:10px}.quality-item{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:12px 14px;color:var(--muted);font-weight:800}.quality-item strong{color:var(--text)}
+    footer{text-align:center;color:var(--muted);padding:32px 7%;background:var(--card);border-top:1px solid var(--border)}.fade{opacity:0;transform:translateY(18px);transition:.65s}.fade.visible{opacity:1;transform:translateY(0)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes floatIn{from{opacity:0;transform:translateY(28px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @media print{header,.hero,.features,.tools-grid,.controls,.upload,.status-pill{display:none!important}body{background:white}.panel,.score-card,.insight,.metric{box-shadow:none}.results{display:block!important}}
+    @media(max-width:980px){.hero,.analyzer,.result-grid{grid-template-columns:1fr}.features,.metrics,.tools-grid{grid-template-columns:1fr 1fr}.score-card{position:static}}@media(max-width:620px){header{flex-direction:column;align-items:flex-start}.features,.metrics,.tools-grid,.sample-row{grid-template-columns:1fr}.section-title{align-items:flex-start}.status-pill{white-space:normal}}
   </style>
 </head>
 <body>
-<header><div class="logo"><div class="logo-icon">AI</div><span>ATS Resume Analyzer</span></div><div class="badge">GitHub Pages + Vercel AI Backend</div></header>
-<section class="hero"><div><h1>Analyze your CV against any job description.</h1><p>Upload a PDF, DOCX, or TXT resume, paste a job description, and get an ATS score, matched keywords, missing keywords, readability checks, and AI feedback from a secure Vercel backend.</p></div><div class="hero-card"><h3>Live ATS Report</h3><div class="circle"><span>AI</span></div><p class="helper">Frontend runs on GitHub Pages. Gemini API key stays hidden inside Vercel.</p></div></section>
-<section class="feature-strip"><div class="feature-card"><strong>Secure AI Backend</strong><span>Calls Gemini from Vercel, not from the browser.</span></div><div class="feature-card"><strong>CV Extraction</strong><span>Extracts PDF, DOCX, and TXT resume text in-browser.</span></div><div class="feature-card"><strong>ATS Keywords</strong><span>Compares resume terms against job requirements.</span></div><div class="feature-card"><strong>Export Report</strong><span>Download your ATS analysis as a text file.</span></div></section>
-<main>
-  <div class="setup-alert">Before hosting, edit <code>API_BASE_URL</code> in this HTML and paste your Vercel backend URL, for example <code>https://your-backend.vercel.app</code>.</div>
-  <section id="analyzer"><div class="section-title"><h2>CV + Job Description Analyzer</h2><p>Status: <span id="apiStatus" class="status">Checking backend...</span></p></div>
-    <div class="analyzer"><div class="panel"><h3>1. Upload or paste CV</h3><p class="helper">Use text-based PDF, DOCX, or TXT. Scanned PDFs need OCR first.</p><div class="upload-box"><strong>Upload Resume</strong><input id="resumeFile" type="file" accept=".pdf,.docx,.txt"></div><textarea id="resumeText" placeholder="Extracted or pasted CV text appears here..."></textarea></div>
-      <div class="panel"><h3>2. Add job description</h3><p class="helper">Paste the full job description for better AI scoring.</p><input id="jobTitle" type="text" placeholder="Job title, e.g. Frontend Developer"><textarea id="jobDescription" placeholder="Paste job description here..."></textarea><div class="controls"><button class="btn-primary" onclick="analyzeATS()">Generate ATS Score</button><button class="btn-secondary" onclick="loadSampleData()">Try Sample</button><button class="btn-secondary" onclick="clearAll()">Clear</button><button class="btn-secondary" onclick="downloadReport()">Download Report</button></div><div id="loader" class="loader">Analyzing with AI backend...</div></div></div>
+  <header>
+    <div class="logo"><div class="logo-icon">AI</div><span>ATS Resume Analyzer</span></div>
+    <div class="nav"><a href="#analyzer">Analyzer</a><a href="#results">Report</a><button class="btn secondary" onclick="toggleDarkMode()">Dark Mode</button><div class="badge">Gemini AI Backend</div></div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span> Live AI-powered resume screening</div>
+      <h1>Build a stronger CV for <span class="gradient">every job application.</span></h1>
+      <p>Upload your CV, paste the job description, and get an ATS score with matched keywords, missing terms, structure checks, readability analysis, and AI-backed improvement guidance.</p>
+      <div class="actions"><a class="btn primary" href="#analyzer">Start Analysis</a><button class="btn secondary" onclick="loadRandomSample();document.getElementById('analyzer').scrollIntoView({behavior:'smooth'});">Try Random Sample</button></div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-top"><h3>ATS Score Preview</h3><span class="live"><span class="pulse"></span>Live</span></div>
+      <div class="ring"><span>86%</span></div>
+      <div class="mini"><div><span>Keyword Match</span><strong>Strong</strong></div><div><span>AI Feedback</span><strong>Enabled</strong></div><div><span>Report Export</span><strong>Ready</strong></div></div>
+    </div>
   </section>
-  <section id="results" class="results"><div class="section-title"><h2>ATS Analysis Report</h2><p id="providerText">Report generated.</p></div><div class="metrics-grid"><div class="metric-box"><span>Resume Words</span><strong id="resumeWords">0</strong></div><div class="metric-box"><span>Job Keywords</span><strong id="jobKeywords">0</strong></div><div class="metric-box"><span>Matched</span><strong id="matchedCount">0</strong></div><div class="metric-box"><span>Missing</span><strong id="missingCount">0</strong></div></div><div class="result-grid"><div class="score-card"><h3>ATS Score</h3><div id="scoreLabel" class="score-label">Ready</div><div id="scoreNumber" class="score-number">0%</div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><p id="scoreSummary" class="helper"></p><div class="breakdown-row"><span>Keywords</span><div class="mini-progress"><div id="keywordBreakdown"></div></div><strong id="keywordScoreText">0%</strong></div><div class="breakdown-row"><span>Structure</span><div class="mini-progress"><div id="structureBreakdown"></div></div><strong id="structureScoreText">0%</strong></div><div class="breakdown-row"><span>Readability</span><div class="mini-progress"><div id="readabilityBreakdown"></div></div><strong id="readabilityScoreText">0%</strong></div></div><div class="insights"><div class="insight-card"><h4>Matched Keywords</h4><div id="matchedKeywords" class="chips"></div></div><div class="insight-card"><h4>Missing Keywords</h4><div id="missingKeywords" class="chips"></div></div><div class="insight-card"><h4>AI Feedback</h4><p id="aiFeedback" class="helper"></p></div><div class="insight-card"><h4>Suggestions</h4><ul id="suggestions"></ul></div></div></div></section>
-</main><footer>AI Resume Tracker + ATS Scoring System</footer>
-<script>
-  const API_BASE_URL = "https://ats-ai-backend.vercel.app";
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  const stopWords = new Set("the and for with from that this you your are will have has was were our their they into about work role job candidate company team using use able such all any can who what when where how why must should would could experience years skills responsibilities requirements including across within plus to in of a an on at by be is as or it we us i me my he she them his her its".split(" "));
-  function apiUrl(path){return API_BASE_URL.replace(/\/$/,"")+path}
-  function normalize(t=""){return String(t).toLowerCase().replace(/[^a-z0-9+#./\s-]/g," ").replace(/\s+/g," ").trim()}
-  function wordCount(t=""){return normalize(t).split(" ").filter(Boolean).length}
-  function keywords(t=""){return [...new Set(normalize(t).split(" ").filter(w=>w.length>2&&!stopWords.has(w)))].slice(0,60)}
-  function chip(text,type){const s=document.createElement("span");s.className="chip "+type;s.textContent=text;return s}
-  async function checkApi(){const el=document.getElementById("apiStatus");if(API_BASE_URL.includes("PASTE_")){el.textContent="Add your Vercel backend URL in API_BASE_URL";el.className="status fail";return}try{const r=await fetch(apiUrl("/api/health"));const d=await r.json();el.textContent=d.aiConfigured?"Gemini backend connected":"Backend online, Gemini key missing";el.className=d.aiConfigured?"status ok":"status fail"}catch(e){el.textContent="Backend not reachable";el.className="status fail"}}
-  document.getElementById("resumeFile").addEventListener("change", async e=>{const file=e.target.files[0];if(!file)return;try{let text="";const ext=file.name.split(".").pop().toLowerCase();if(ext==="pdf") text=await readPDF(file); else if(ext==="docx") text=await readDOCX(file); else if(ext==="txt") text=await file.text(); else throw new Error("Unsupported file"); if(!text.trim()) throw new Error("No readable text found"); document.getElementById("resumeText").value=text.trim()}catch(err){alert("Could not extract CV text. If it is a scanned PDF, convert it with OCR first. Reason: "+err.message)}});
-  async function readPDF(file){const ab=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:ab}).promise;let text="";for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const c=await page.getTextContent();text+=c.items.map(x=>x.str).join(" ")+"\n"}return text}
-  async function readDOCX(file){const ab=await file.arrayBuffer();const r=await mammoth.extractRawText({arrayBuffer:ab});return r.value}
-  function localATS(resumeText, jobDescription){const jk=keywords(jobDescription);const resume=normalize(resumeText);const matched=jk.filter(k=>resume.includes(k));const missing=jk.filter(k=>!resume.includes(k));const keywordPercent=jk.length?Math.round(matched.length/jk.length*100):0;const sections=["summary","experience","education","skills","projects","certifications"];const structurePercent=Math.round(sections.filter(s=>resume.includes(s)).length/sections.length*100);let readabilityPercent=100;if(resumeText.length<900)readabilityPercent-=25;if(resumeText.length>7500)readabilityPercent-=8;const score=Math.round(keywordPercent*.65+structurePercent*.2+readabilityPercent*.15);return{score,keywordPercent,structurePercent,readabilityPercent,matchedKeywords:matched,missingKeywords:missing,summary:"Local ATS score generated.",feedback:"Local fallback used.",suggestions:["Add missing keywords naturally if truthful.","Use clear Skills, Experience, Education, and Projects sections.","Add measurable achievements."]}}
-  async function analyzeATS(){const resumeText=document.getElementById("resumeText").value.trim();const jobDescription=document.getElementById("jobDescription").value.trim();const jobTitle=document.getElementById("jobTitle").value.trim();if(!resumeText||!jobDescription){alert("Please add both CV text and job description.");return}document.getElementById("loader").style.display="block";let result;try{if(API_BASE_URL.includes("PASTE_"))throw new Error("API_BASE_URL not set");const r=await fetch(apiUrl("/api/ats-score"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({resumeText,jobDescription,jobTitle})});result=await r.json()}catch(e){result=localATS(resumeText,jobDescription);result.feedback="Backend unavailable, local ATS scoring used. Reason: "+e.message;result.aiConnected=false}render(result,resumeText,jobDescription);document.getElementById("loader").style.display="none";document.getElementById("results").style.display="block";document.getElementById("results").scrollIntoView({behavior:"smooth"})}
-  function render(r,resumeText,jobDescription){document.getElementById("providerText").textContent=r.aiConnected?`AI provider: ${r.provider||"Gemini"} (${r.model||"model"})`:"Local fallback report.";document.getElementById("resumeWords").textContent=wordCount(resumeText);document.getElementById("jobKeywords").textContent=keywords(jobDescription).length;document.getElementById("matchedCount").textContent=(r.matchedKeywords||[]).length;document.getElementById("missingCount").textContent=(r.missingKeywords||[]).length;document.getElementById("scoreNumber").textContent=(r.score||0)+"%";document.getElementById("progressBar").style.width=(r.score||0)+"%";document.getElementById("scoreSummary").textContent=r.summary||"";const label=document.getElementById("scoreLabel");label.textContent=r.score>=85?"Excellent":r.score>=70?"Good Match":r.score>=50?"Average":"Needs Work";setBar("keyword",r.keywordPercent||0);setBar("structure",r.structurePercent||0);setBar("readability",r.readabilityPercent||0);fillChips("matchedKeywords",r.matchedKeywords||[],"match");fillChips("missingKeywords",r.missingKeywords||[],"missing");document.getElementById("aiFeedback").textContent=r.feedback||"";const ul=document.getElementById("suggestions");ul.innerHTML="";(r.suggestions||[]).forEach(x=>{const li=document.createElement("li");li.textContent=x;ul.appendChild(li)})}
-  function setBar(name,val){document.getElementById(name+"Breakdown").style.width=val+"%";document.getElementById(name+"ScoreText").textContent=val+"%"}
-  function fillChips(id,arr,type){const box=document.getElementById(id);box.innerHTML="";arr.slice(0,30).forEach(k=>box.appendChild(chip(k,type)));if(!arr.length)box.innerHTML="<p class='helper'>None found.</p>"}
-  function loadSampleData(){document.getElementById("jobTitle").value="Frontend Developer";document.getElementById("resumeText").value="Summary\nFrontend developer with experience in HTML, CSS, JavaScript, React, Git, REST API integration and responsive design.\n\nSkills\nHTML, CSS, JavaScript, React, Git, API, debugging, testing\n\nExperience\nBuilt responsive web applications and reusable UI components. Improved performance and integrated REST APIs.\n\nEducation\nBSc Computer Science";document.getElementById("jobDescription").value="We are hiring a Frontend Developer skilled in HTML, CSS, JavaScript, React, responsive design, REST API integration, Git, testing, debugging, accessibility and performance optimization."}
-  function clearAll(){["resumeText","jobDescription","jobTitle"].forEach(id=>document.getElementById(id).value="");document.getElementById("results").style.display="none"}
-  function downloadReport(){if(document.getElementById("results").style.display==="none"){alert("Generate a report first.");return}const text=document.getElementById("results").innerText;const blob=new Blob([text],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ats-report.txt";a.click();URL.revokeObjectURL(a.href)}
-  checkApi();
-</script>
+
+  <section class="features">
+    <div class="feature fade"><div class="feature-icon">🤖</div><strong>AI Feedback</strong><span>Practical suggestions based on your CV and job requirements.</span></div>
+    <div class="feature fade"><div class="feature-icon">📄</div><strong>Resume Parsing</strong><span>Extract text from PDF, DOCX, and TXT files.</span></div>
+    <div class="feature fade"><div class="feature-icon">🎯</div><strong>Keyword Matching</strong><span>Identify matched and missing job terms quickly.</span></div>
+    <div class="feature fade"><div class="feature-icon">🧾</div><strong>Professional Report</strong><span>Download, copy, or print the final analysis.</span></div>
+  </section>
+
+  <main>
+    <section class="tools-grid fade">
+      <div class="tool-card"><strong>Auto Save</strong><span>CV and job description are saved locally while editing.</span></div>
+      <div class="tool-card"><strong>Quality Checks</strong><span>Checks sections, length, formatting, and numbers.</span></div>
+      <div class="tool-card"><strong>Multiple Samples</strong><span>Try different roles instantly before using real data.</span></div>
+      <div class="tool-card"><strong>Export Tools</strong><span>Download TXT, copy summary, or print report.</span></div>
+    </section>
+
+    <section id="analyzer">
+      <div class="section-title fade">
+        <div><h2>CV + Job Description Analyzer</h2><p>Use a full job description for best results. Short titles like “broker” give weak analysis.</p></div>
+        <div id="statusPill" class="status-pill"><span class="dot"></span><span id="apiStatus">Checking backend...</span></div>
+      </div>
+
+      <div class="analyzer">
+        <div class="panel fade">
+          <h3>1. Upload or paste CV</h3>
+          <p class="helper">Use a text-based PDF, DOCX, or TXT file. Scanned PDFs need OCR first.</p>
+          <div class="upload"><strong>Upload Resume</strong><input id="resumeFile" type="file" accept=".pdf,.docx,.txt"></div>
+          <textarea id="resumeText" placeholder="Extracted or pasted CV text appears here..." oninput="autoSave()"></textarea>
+        </div>
+
+        <div class="panel fade">
+          <h3>2. Add job description</h3>
+          <p class="helper">Paste the full job description, including responsibilities, skills, tools, and requirements.</p>
+
+          <div class="sample-row">
+            <select id="sampleSelect" onchange="loadSampleData(this.value)">
+              <option value="">Choose a sample CV + job description</option>
+              <option value="frontend">Frontend Developer</option>
+              <option value="operations">Operations Coordinator</option>
+              <option value="data">Data Analyst</option>
+              <option value="marketing">Digital Marketing Manager</option>
+              <option value="finance">Finance Assistant</option>
+              <option value="customer">Customer Service Representative</option>
+              <option value="hr">HR Assistant</option>
+              <option value="admin">Administrative Assistant</option>
+            </select>
+            <button class="btn secondary" onclick="loadRandomSample()">Random Sample</button>
+          </div>
+          <div class="sample-note">Samples are for testing. Replace them with your own CV and job description for real scoring.</div>
+
+          <input id="jobTitle" type="text" placeholder="Job title, e.g. Operations Coordinator" oninput="autoSave()">
+          <textarea id="jobDescription" placeholder="Paste full job description here..." oninput="autoSave()"></textarea>
+          <div class="controls">
+            <button class="btn primary" onclick="analyzeATS()">Generate ATS Score</button>
+            <button class="btn secondary" onclick="loadSampleData(document.getElementById('sampleSelect').value || 'frontend')">Load Sample</button>
+            <button class="btn secondary" onclick="restoreDraft()">Restore Draft</button>
+            <button class="btn secondary" onclick="clearAll()">Clear</button>
+            <button class="btn secondary" onclick="downloadReport()">Download</button>
+            <button class="btn secondary" onclick="copyReport()">Copy</button>
+            <button class="btn secondary" onclick="window.print()">Print</button>
+          </div>
+          <div id="loader" class="loader">Analyzing with AI backend...</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="results">
+      <div class="section-title"><div><h2>ATS Analysis Report</h2><p id="providerText">Report generated.</p></div></div>
+      <div class="metrics">
+        <div class="metric"><span>Resume Words</span><strong id="resumeWords">0</strong></div>
+        <div class="metric"><span>Job Keywords</span><strong id="jobKeywords">0</strong></div>
+        <div class="metric"><span>Matched</span><strong id="matchedCount">0</strong></div>
+        <div class="metric"><span>Missing</span><strong id="missingCount">0</strong></div>
+      </div>
+      <div class="result-grid">
+        <div class="score-card">
+          <h3>ATS Score</h3><div id="scoreLabel" class="score-label">Ready</div><div id="scoreNumber" class="score-number">0%</div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><p id="scoreSummary" class="helper"></p>
+          <div class="breakdown"><span>Keywords</span><div class="mini-progress"><div id="keywordBreakdown"></div></div><strong id="keywordScoreText">0%</strong></div>
+          <div class="breakdown"><span>Structure</span><div class="mini-progress"><div id="structureBreakdown"></div></div><strong id="structureScoreText">0%</strong></div>
+          <div class="breakdown"><span>Readability</span><div class="mini-progress"><div id="readabilityBreakdown"></div></div><strong id="readabilityScoreText">0%</strong></div>
+        </div>
+        <div class="insights">
+          <div class="insight"><h4>Matched Keywords</h4><div id="matchedKeywords" class="chips"></div></div>
+          <div class="insight"><h4>Missing Keywords</h4><div id="missingKeywords" class="chips"></div></div>
+          <div class="insight"><h4>Quality Checks</h4><div id="qualityChecks" class="quality-list"></div></div>
+          <div class="insight"><h4>AI Feedback</h4><p id="aiFeedback" class="helper"></p></div>
+          <div class="insight"><h4>Suggestions</h4><ul id="suggestions"></ul></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>AI Resume Tracker + ATS Scoring System</footer>
+
+  <script>
+    const API_BASE_URL = "https://ats-ai-backend.vercel.app";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const stopWords = new Set("the and for with from that this you your are will have has was were our their they into about work role job candidate company team using use able such all any can who what when where how why must should would could experience years skills responsibilities requirements including across within plus to in of a an on at by be is as or it we us i me my he she them his her its".split(" "));
+
+    const samples = {
+      frontend:{title:"Frontend Developer",resume:`Summary\nFrontend developer with hands-on experience building responsive web interfaces using HTML, CSS, JavaScript, React, Git, and REST API integration.\n\nSkills\nHTML, CSS, JavaScript, React, Git, REST API, debugging, testing, responsive design, accessibility\n\nExperience\nBuilt responsive web applications and reusable UI components. Improved page speed, fixed UI bugs, integrated REST APIs, and collaborated with designers and backend developers.\n\nEducation\nBSc Computer Science`,job:`We are hiring a Frontend Developer skilled in HTML, CSS, JavaScript, React, responsive design, REST API integration, Git, testing, debugging, accessibility, and performance optimization. The candidate should build reusable components, improve user experience, and collaborate with cross-functional teams.`},
+      operations:{title:"Operations Coordinator",resume:`Summary\nOperations professional with experience in process coordination, client onboarding, documentation management, workflow tracking, and stakeholder communication.\n\nSkills\nOperations management, client coordination, documentation, workflow optimization, KYC support, reporting, communication, problem solving\n\nExperience\nCoordinated daily operations, managed client documentation, supported onboarding, tracked pending cases, maintained reports, and improved workflow efficiency across business teams.\n\nEducation\nBachelor's degree in progress`,job:`We are looking for an Operations Coordinator with experience in workflow management, process improvement, client onboarding, documentation handling, compliance support, KYC verification, reporting, vendor coordination, and strong communication skills.`},
+      data:{title:"Data Analyst",resume:`Summary\nData analyst with experience in SQL, Excel, Power BI, Python, reporting, dashboard development, and business insights.\n\nSkills\nSQL, Excel, Power BI, Python, data cleaning, data visualization, reporting, analytics, dashboards\n\nExperience\nAnalyzed datasets, created Power BI dashboards, cleaned data using Excel and Python, prepared reports, and presented insights to support business decision-making.\n\nEducation\nBSc Computer Science`,job:`We are hiring a Data Analyst with strong skills in SQL, Excel, Power BI, Python, data visualization, dashboard creation, data cleaning, business reporting, analytics, statistics, and communication.`},
+      marketing:{title:"Digital Marketing Manager",resume:`Summary\nDigital marketing professional with experience in SEO, paid campaigns, content strategy, social media, analytics, and campaign reporting.\n\nSkills\nSEO, Google Analytics, Google Ads, content marketing, social media marketing, email campaigns, keyword research, reporting\n\nExperience\nManaged digital campaigns, improved website traffic, monitored campaign performance, created content calendars, and optimized SEO and paid advertising results.`,job:`Seeking a Digital Marketing Manager with experience in SEO, Google Analytics, paid advertising, social media strategy, content planning, email marketing, campaign optimization, reporting, keyword research, and brand growth.`},
+      finance:{title:"Finance Assistant",resume:`Summary\nFinance assistant with experience in invoice processing, account reconciliation, Excel reporting, financial documentation, and administrative support.\n\nSkills\nExcel, bookkeeping, invoicing, reconciliation, financial reporting, data entry, documentation, attention to detail\n\nExperience\nProcessed invoices, updated financial records, prepared Excel reports, supported reconciliation, and maintained accurate documentation for finance teams.`,job:`We are hiring a Finance Assistant with experience in invoice processing, account reconciliation, Excel, bookkeeping, financial reporting, data entry, documentation, accuracy, and administrative finance support.`},
+      customer:{title:"Customer Service Representative",resume:`Summary\nCustomer service representative with experience handling inquiries, appointment scheduling, CRM updates, complaint resolution, and customer communication.\n\nSkills\nCustomer service, communication, CRM, problem solving, data entry, appointment scheduling, complaint handling, multitasking\n\nExperience\nManaged customer inquiries, scheduled appointments, maintained records, resolved issues, updated CRM data, and delivered professional service in a fast-paced environment.`,job:`We are seeking a Customer Service Representative with excellent communication skills, CRM experience, complaint resolution, appointment scheduling, data entry, customer support, problem solving, multitasking, and service quality.`},
+      hr:{title:"HR Assistant",resume:`Summary\nHR assistant with experience in recruitment coordination, employee records, onboarding support, interview scheduling, and HR documentation.\n\nSkills\nRecruitment, onboarding, HR records, interview scheduling, documentation, communication, employee support\n\nExperience\nScheduled interviews, supported onboarding, maintained employee files, coordinated recruitment tasks, and assisted HR managers with reports and documentation.`,job:`We are hiring an HR Assistant with experience in recruitment coordination, onboarding, employee records, interview scheduling, HR documentation, communication, confidentiality, and administrative support.`},
+      admin:{title:"Administrative Assistant",resume:`Summary\nAdministrative assistant with experience in calendar management, office coordination, document preparation, email communication, and data entry.\n\nSkills\nAdministration, scheduling, Microsoft Office, documentation, data entry, communication, time management\n\nExperience\nManaged calendars, prepared documents, handled office communication, maintained records, supported managers, and improved administrative workflows.`,job:`Looking for an Administrative Assistant with skills in scheduling, Microsoft Office, document management, email communication, data entry, office coordination, multitasking, and time management.`}
+    };
+
+    function apiUrl(path){return API_BASE_URL.replace(/\/$/,"")+path}
+    function normalize(text=""){return String(text).toLowerCase().replace(/[^a-z0-9+#./\s-]/g," ").replace(/\s+/g," ").trim()}
+    function wordCount(text=""){return normalize(text).split(" ").filter(Boolean).length}
+    function keywords(text=""){return [...new Set(normalize(text).split(" ").filter(word=>word.length>2&&!stopWords.has(word)))].slice(0,60)}
+    function chip(text,type){const span=document.createElement("span");span.className="chip "+type;span.textContent=text;return span}
+    function updateStatus(message,mode){document.getElementById("apiStatus").textContent=message;document.getElementById("statusPill").className=mode?"status-pill "+mode:"status-pill"}
+
+    async function checkApi(){
+      updateStatus("Checking backend...","");
+      try{
+        const controller=new AbortController();
+        const timeout=setTimeout(()=>controller.abort(),8000);
+        const response=await fetch("https://ats-ai-backend.vercel.app/api/health",{method:"GET",cache:"no-store",signal:controller.signal});
+        clearTimeout(timeout);
+        if(!response.ok)throw new Error("Backend returned status "+response.status);
+        const data=await response.json();
+        if(data.server==="ok"&&data.aiConfigured===true)updateStatus("AI backend connected","ok");
+        else if(data.server==="ok"&&data.aiConfigured===false)updateStatus("Backend online, AI key missing","fail");
+        else updateStatus("Backend responded unexpectedly","fail");
+      }catch(error){updateStatus("Backend waking up or unreachable","fail")}
+    }
+
+    document.getElementById("resumeFile").addEventListener("change",async event=>{
+      const file=event.target.files[0];if(!file)return;
+      try{
+        let text="";const ext=file.name.split(".").pop().toLowerCase();
+        if(ext==="pdf")text=await readPDF(file);else if(ext==="docx")text=await readDOCX(file);else if(ext==="txt")text=await file.text();else throw new Error("Unsupported file type");
+        if(!text.trim())throw new Error("No readable text found");
+        document.getElementById("resumeText").value=text.trim();autoSave();
+      }catch(error){alert("Could not extract CV text. If it is a scanned PDF, convert it with OCR first. Reason: "+error.message)}
+    });
+
+    async function readPDF(file){const arrayBuffer=await file.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise;let text="";for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const content=await page.getTextContent();text+=content.items.map(item=>item.str).join(" ")+"\n"}return text}
+    async function readDOCX(file){const arrayBuffer=await file.arrayBuffer();const result=await mammoth.extractRawText({arrayBuffer});return result.value}
+
+    function localATS(resumeText,jobDescription){
+      const jobKeywords=keywords(jobDescription),resume=normalize(resumeText),matched=jobKeywords.filter(k=>resume.includes(k)),missing=jobKeywords.filter(k=>!resume.includes(k));
+      const keywordPercent=jobKeywords.length?Math.round(matched.length/jobKeywords.length*100):0;
+      const sections=["summary","experience","education","skills","projects","certifications"];
+      const structurePercent=Math.round(sections.filter(s=>resume.includes(s)).length/sections.length*100);
+      let readabilityPercent=100;if(resumeText.length<900)readabilityPercent-=25;if(resumeText.length>7500)readabilityPercent-=8;if((resumeText.match(/\|/g)||[]).length>8)readabilityPercent-=10;
+      const score=Math.round(keywordPercent*.65+structurePercent*.2+readabilityPercent*.15);
+      return{score,keywordPercent,structurePercent,readabilityPercent,matchedKeywords:matched,missingKeywords:missing,summary:"Local ATS score generated.",feedback:"Backend unavailable, so local scoring was used.",suggestions:["Add missing keywords naturally if they are truthful.","Use clear Skills, Experience, Education, Projects, and Certifications sections.","Add measurable achievements with numbers, percentages, timelines, and outcomes."],aiConnected:false}
+    }
+
+    function qualityChecks(resumeText){
+      const n=normalize(resumeText);
+      return [
+        ["Summary section", n.includes("summary") ? "Detected" : "Missing"],
+        ["Skills section", n.includes("skills") ? "Detected" : "Missing"],
+        ["Experience section", n.includes("experience") ? "Detected" : "Missing"],
+        ["Education section", n.includes("education") ? "Detected" : "Missing"],
+        ["Measurable numbers", /\d/.test(resumeText) ? "Detected" : "Add metrics"],
+        ["Simple formatting", (resumeText.match(/\|/g)||[]).length<8 ? "Good" : "Too many separators"]
+      ];
+    }
+
+    async function analyzeATS(){
+      const resumeText=document.getElementById("resumeText").value.trim(),jobDescription=document.getElementById("jobDescription").value.trim(),jobTitle=document.getElementById("jobTitle").value.trim();
+      if(!resumeText||!jobDescription){alert("Please add both CV text and job description.");return}
+      document.getElementById("loader").style.display="block";autoSave();
+      let result;
+      try{
+        const response=await fetch(apiUrl("/api/ats-score"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({resumeText,jobDescription,jobTitle})});
+        if(!response.ok)throw new Error("Backend returned status "+response.status);
+        result=await response.json();
+      }catch(error){result=localATS(resumeText,jobDescription);result.feedback="Backend unavailable, local ATS scoring used. Reason: "+error.message}
+      render(result,resumeText,jobDescription);
+      document.getElementById("loader").style.display="none";
+      document.getElementById("results").style.display="block";
+      document.getElementById("results").scrollIntoView({behavior:"smooth"});
+    }
+
+    function render(result,resumeText,jobDescription){
+      document.getElementById("providerText").textContent=result.aiConnected?`AI provider: ${result.provider||"Gemini"} (${result.model||"model"})`:"Local fallback report.";
+      document.getElementById("resumeWords").textContent=wordCount(resumeText);
+      document.getElementById("jobKeywords").textContent=keywords(jobDescription).length;
+      document.getElementById("matchedCount").textContent=(result.matchedKeywords||[]).length;
+      document.getElementById("missingCount").textContent=(result.missingKeywords||[]).length;
+      const score=Number(result.score||0);document.getElementById("scoreNumber").textContent=score+"%";document.getElementById("progressBar").style.width=score+"%";document.getElementById("scoreSummary").textContent=result.summary||"";
+      document.getElementById("scoreLabel").textContent=score>=85?"Excellent":score>=70?"Good Match":score>=50?"Average":"Needs Work";
+      setBar("keyword",Number(result.keywordPercent||0));setBar("structure",Number(result.structurePercent||0));setBar("readability",Number(result.readabilityPercent||0));
+      fillChips("matchedKeywords",result.matchedKeywords||[],"match");fillChips("missingKeywords",result.missingKeywords||[],"missing");
+      document.getElementById("aiFeedback").textContent=result.feedback||"";
+      const list=document.getElementById("suggestions");list.innerHTML="";(result.suggestions||[]).forEach(item=>{const li=document.createElement("li");li.textContent=item;list.appendChild(li)});
+      const qc=document.getElementById("qualityChecks");qc.innerHTML="";qualityChecks(resumeText).forEach(([k,v])=>{const div=document.createElement("div");div.className="quality-item";div.innerHTML=`<span>${k}</span><strong>${v}</strong>`;qc.appendChild(div)});
+    }
+
+    function setBar(name,value){document.getElementById(name+"Breakdown").style.width=value+"%";document.getElementById(name+"ScoreText").textContent=value+"%"}
+    function fillChips(id,array,type){const box=document.getElementById(id);box.innerHTML="";array.slice(0,30).forEach(keyword=>box.appendChild(chip(keyword,type)));if(!array.length)box.innerHTML="<p class='helper'>None found.</p>"}
+    function loadSampleData(type){const selectedType=type||document.getElementById("sampleSelect").value||"frontend";const sample=samples[selectedType]||samples.frontend;document.getElementById("sampleSelect").value=selectedType;document.getElementById("jobTitle").value=sample.title;document.getElementById("resumeText").value=sample.resume;document.getElementById("jobDescription").value=sample.job;document.getElementById("results").style.display="none";autoSave()}
+    function loadRandomSample(){const keys=Object.keys(samples);loadSampleData(keys[Math.floor(Math.random()*keys.length)])}
+    function clearAll(){["resumeText","jobDescription","jobTitle"].forEach(id=>document.getElementById(id).value="");document.getElementById("sampleSelect").value="";document.getElementById("results").style.display="none";localStorage.removeItem("atsDraft")}
+    function getReportText(){return document.getElementById("results").style.display==="none"?"":document.getElementById("results").innerText}
+    function downloadReport(){const text=getReportText();if(!text){alert("Generate a report first.");return}const blob=new Blob([text],{type:"text/plain"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="ats-report.txt";link.click();URL.revokeObjectURL(link.href)}
+    async function copyReport(){const text=getReportText();if(!text){alert("Generate a report first.");return}await navigator.clipboard.writeText(text);alert("Report copied.")}
+    function autoSave(){localStorage.setItem("atsDraft",JSON.stringify({resumeText:document.getElementById("resumeText").value,jobDescription:document.getElementById("jobDescription").value,jobTitle:document.getElementById("jobTitle").value}))}
+    function restoreDraft(){const d=JSON.parse(localStorage.getItem("atsDraft")||"{}");document.getElementById("resumeText").value=d.resumeText||"";document.getElementById("jobDescription").value=d.jobDescription||"";document.getElementById("jobTitle").value=d.jobTitle||""}
+    function toggleDarkMode(){document.body.classList.toggle("dark");localStorage.setItem("atsDark",document.body.classList.contains("dark")?"1":"0")}
+
+    const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("visible")})},{threshold:.14});
+    document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
+    if(localStorage.getItem("atsDark")==="1")document.body.classList.add("dark");
+    restoreDraft();
+    checkApi();setInterval(checkApi,10000);
+  </script>
 </body>
 </html>
-

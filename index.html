@@ -34,7 +34,7 @@
     main{padding:22px 7% 76px}.section-title{margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}.section-title h2{font-size:clamp(1.9rem,3vw,2.8rem);letter-spacing:-.045em;margin-bottom:8px}.helper,.section-title p{color:var(--muted);line-height:1.65}
     .status-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border);background:var(--card);border-radius:999px;padding:10px 14px;font-weight:950;box-shadow:0 12px 30px rgba(15,23,42,.07)}.dot{width:10px;height:10px;border-radius:50%;background:var(--warn);box-shadow:0 0 0 5px rgba(245,158,11,.13)}.status-pill.ok .dot{background:var(--good);box-shadow:0 0 0 5px rgba(22,163,74,.13)}.status-pill.fail .dot{background:var(--bad);box-shadow:0 0 0 5px rgba(220,38,38,.13)}
     .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.tool-card{padding:18px}.tool-card strong{display:block;margin-bottom:6px}.tool-card span{color:var(--muted);font-size:.88rem}
-    .analyzer{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.panel{padding:24px}.panel h3{font-size:1.18rem;margin-bottom:8px;letter-spacing:-.02em}.upload{border:2px dashed #bfdbfe;background:linear-gradient(135deg,#eff6ff,#f8fbff);border-radius:22px;padding:24px;text-align:center;margin:17px 0}input[type=file]{width:100%;margin-top:12px}
+    .analyzer{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.panel{padding:24px}.panel h3{font-size:1.18rem;margin-bottom:8px;letter-spacing:-.02em}
     input[type=text],textarea,select{width:100%;border:1px solid var(--border);border-radius:18px;padding:15px;font-size:.95rem;line-height:1.6;outline:none;background:var(--card);color:var(--text);transition:.2s}input[type=text],select{margin-bottom:12px}textarea{resize:vertical;min-height:248px}textarea:focus,input[type=text]:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.08)}
     .sample-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.sample-row select{margin-bottom:0}.sample-note{font-size:.82rem;color:var(--muted);margin-bottom:12px}
     .controls{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}.loader{display:none;margin-top:14px;color:var(--primary);font-weight:950}.results{display:none;margin-top:48px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.metric{padding:20px}.metric span{display:block;color:var(--muted);font-size:.82rem;font-weight:850;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}.metric strong{font-size:1.55rem;letter-spacing:-.04em}
@@ -44,46 +44,94 @@
     .quality-list{display:grid;gap:10px}.quality-item{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--border);background:var(--soft);border-radius:14px;padding:12px 14px;color:var(--muted);font-weight:800}.quality-item strong{color:var(--text)}
     footer{text-align:center;color:var(--muted);padding:32px 7%;background:var(--card);border-top:1px solid var(--border)}.fade{opacity:0;transform:translateY(18px);transition:.65s}.fade.visible{opacity:1;transform:translateY(0)}
     @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}@keyframes floatIn{from{opacity:0;transform:translateY(28px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-    @media print{header,.hero,.features,.tools-grid,.controls,.upload,.status-pill{display:none!important}body{background:white}.panel,.score-card,.insight,.metric{box-shadow:none}.results{display:block!important}}
+    @media print{header,.hero,.features,.tools-grid,.controls,.upload-zone,.status-pill{display:none!important}body{background:white}.panel,.score-card,.insight,.metric{box-shadow:none}.results{display:block!important}}
     @media(max-width:980px){.hero,.analyzer,.result-grid{grid-template-columns:1fr}.features,.metrics,.tools-grid{grid-template-columns:1fr 1fr}.score-card{position:static}}@media(max-width:620px){header{flex-direction:column;align-items:flex-start}.features,.metrics,.tools-grid,.sample-row{grid-template-columns:1fr}.section-title{align-items:flex-start}.status-pill{white-space:normal}}
-  
+
+    /* ─── UPLOAD ZONE (fixed) ─── */
     .upload-zone{
       border:2px dashed #93c5fd;
       background:linear-gradient(135deg,rgba(239,246,255,.95),rgba(250,245,255,.9));
       border-radius:26px;
-      padding:24px;
+      padding:32px 24px 28px;
       text-align:center;
       margin:17px 0;
       transition:.25s ease;
+      cursor:pointer;
       position:relative;
-      overflow:hidden;
     }
+    body.dark .upload-zone{background:linear-gradient(135deg,rgba(23,37,84,.55),rgba(46,16,101,.35));border-color:#3b4fa8}
     .upload-zone:hover,.upload-zone.dragover{
       border-color:var(--primary);
       transform:translateY(-2px);
       box-shadow:0 18px 42px rgba(37,99,235,.16);
+      background:linear-gradient(135deg,rgba(219,234,254,.9),rgba(237,233,254,.8));
     }
-    .upload-zone input{display:none}
+    body.dark .upload-zone:hover,body.dark .upload-zone.dragover{background:linear-gradient(135deg,rgba(30,58,138,.5),rgba(67,20,128,.45))}
+    .upload-zone.dragover{border-color:var(--accent);box-shadow:0 18px 50px rgba(124,58,237,.22)}
+
+    /* Hidden native input — NOT inside label anymore */
+    #resumeFile{
+      position:absolute;
+      width:1px;height:1px;
+      opacity:0;overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+
     .upload-icon{
-      width:58px;height:58px;border-radius:20px;
-      display:grid;place-items:center;margin:0 auto 12px;
+      width:64px;height:64px;border-radius:20px;
+      display:grid;place-items:center;margin:0 auto 14px;
       background:linear-gradient(135deg,var(--primary),var(--accent));
-      color:white;font-size:1.55rem;box-shadow:0 16px 32px rgba(37,99,235,.25)
+      color:white;font-size:1.7rem;
+      box-shadow:0 16px 32px rgba(37,99,235,.3);
+      transition:.25s;
     }
-    .upload-title{font-weight:950;font-size:1.04rem;margin-bottom:6px}
-    .upload-sub{color:var(--muted);font-size:.9rem;line-height:1.5;margin-bottom:14px}
+    .upload-zone:hover .upload-icon,.upload-zone.dragover .upload-icon{transform:scale(1.08) translateY(-2px)}
+    .upload-title{font-weight:950;font-size:1.06rem;margin-bottom:6px;color:var(--text)}
+    .upload-sub{color:var(--muted);font-size:.9rem;line-height:1.5;margin-bottom:18px}
+    .upload-choose-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:linear-gradient(135deg,var(--primary),#1d4ed8);color:#fff;
+      border:0;border-radius:14px;padding:11px 20px;
+      font-weight:950;font-size:.92rem;cursor:pointer;
+      box-shadow:0 10px 24px rgba(37,99,235,.28);
+      transition:.22s;
+    }
+    .upload-choose-btn:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(37,99,235,.34)}
+    .upload-size-note{color:var(--muted);font-size:.78rem;margin-top:10px}
+
     .file-pill{
       display:none;align-items:center;justify-content:space-between;gap:10px;
-      background:var(--card);border:1px solid var(--border);border-radius:18px;
-      padding:12px 14px;margin-top:14px;text-align:left
+      background:var(--card);border:1px solid #bfdbfe;border-radius:18px;
+      padding:12px 14px;margin-top:14px;text-align:left;
+      box-shadow:0 6px 20px rgba(37,99,235,.1);
     }
     .file-pill.active{display:flex}
-    .file-name{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
-    .file-meta{color:var(--muted);font-size:.82rem;margin-top:2px}
-    .small-btn{
-      border:1px solid var(--border);background:var(--card);color:var(--text);
-      border-radius:12px;padding:9px 11px;font-weight:900;cursor:pointer
+    .file-pill-icon{
+      width:38px;height:38px;min-width:38px;border-radius:12px;
+      background:linear-gradient(135deg,#eff6ff,#dbeafe);
+      display:grid;place-items:center;font-size:1.1rem;
     }
+    .file-info{flex:1;overflow:hidden}
+    .file-name{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;color:var(--text)}
+    .file-meta{color:var(--muted);font-size:.82rem;margin-top:2px}
+    .file-remove-btn{
+      border:1px solid var(--border);background:var(--card);color:var(--muted);
+      border-radius:10px;padding:7px 11px;font-weight:900;cursor:pointer;font-size:.82rem;
+      transition:.2s;white-space:nowrap;
+    }
+    .file-remove-btn:hover{border-color:#fca5a5;color:var(--bad);background:#fff5f5}
+
+    .extract-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px
+    }
+    .extract-stat{
+      background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:12px
+    }
+    .extract-stat span{display:block;color:var(--muted);font-size:.76rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+    .extract-stat strong{font-size:1.05rem}
+
     .preview-grid{
       display:grid;grid-template-columns:.8fr 1.2fr;gap:14px;margin:16px 0 14px
     }
@@ -94,28 +142,25 @@
     .preview-card h4{font-size:.95rem;margin-bottom:10px;display:flex;justify-content:space-between;gap:10px}
     .pdf-preview{
       min-height:230px;max-height:330px;overflow:auto;background:#0f172a;border-radius:16px;padding:12px;
-      display:grid;place-items:center;color:#cbd5e1
+      display:grid;place-items:center;color:#cbd5e1;font-size:.85rem;text-align:center;line-height:1.55;
     }
     .pdf-preview canvas{max-width:100%;border-radius:10px;background:white;box-shadow:0 12px 22px rgba(0,0,0,.22)}
     .text-preview{
       min-height:230px;max-height:330px;overflow:auto;background:var(--soft);border:1px solid var(--border);
       border-radius:16px;padding:14px;color:var(--muted);font-size:.88rem;line-height:1.65;white-space:pre-wrap
     }
-    .extract-stats{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px
-    }
-    .extract-stat{
-      background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:12px
-    }
-    .extract-stat span{display:block;color:var(--muted);font-size:.76rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
-    .extract-stat strong{font-size:1.05rem}
     .preview-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .small-btn{
+      border:1px solid var(--border);background:var(--card);color:var(--text);
+      border-radius:12px;padding:9px 11px;font-weight:900;cursor:pointer;font-size:.85rem;transition:.18s;
+    }
+    .small-btn:hover{border-color:var(--primary);color:var(--primary)}
     .hidden-textarea{display:none}
     .hidden-textarea.open{display:block;margin-top:12px}
     @media(max-width:980px){.preview-grid{grid-template-columns:1fr}.extract-stats{grid-template-columns:1fr 1fr 1fr}}
     @media(max-width:620px){.extract-stats{grid-template-columns:1fr}}
 
-  
+    /* ─── REWRITE PANEL ─── */
     .rewrite-panel{
       margin-top:24px;
       background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(124,58,237,.08));
@@ -124,191 +169,44 @@
       padding:24px;
       box-shadow:var(--shadow)
     }
-    .rewrite-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:16px
-    }
+    .rewrite-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:16px}
     .rewrite-head h3{font-size:1.35rem;letter-spacing:-.03em;margin-bottom:6px}
-    .rewrite-output{
-      display:none;
-      margin-top:18px
-    }
+    .rewrite-output{display:none;margin-top:18px}
     .rewrite-output.active{display:block}
-    .rewrite-toolbar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin:12px 0
-    }
+    .rewrite-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
     #generatedCV{
-      min-height:420px;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:18px;
-      font-family:Consolas,Monaco,"Courier New",monospace;
-      font-size:.92rem;
-      line-height:1.65;
-      white-space:pre-wrap
+      min-height:420px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;
+      font-family:Consolas,Monaco,"Courier New",monospace;font-size:.92rem;line-height:1.65;white-space:pre-wrap
     }
-    .rewrite-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin:14px 0
-    }
-    .rewrite-mini{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:14px
-    }
-    .rewrite-mini span{
-      display:block;
-      color:var(--muted);
-      font-size:.78rem;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:6px
-    }
+    .rewrite-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+    .rewrite-mini{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px}
+    .rewrite-mini span{display:block;color:var(--muted);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
     .rewrite-mini strong{font-size:1.05rem}
     @media(max-width:760px){.rewrite-grid{grid-template-columns:1fr}}
 
-  
-    .cv-preview-shell{
-      display:none;
-      margin-top:18px;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:28px;
-      padding:20px;
-      box-shadow:var(--shadow)
-    }
+    /* ─── CV PREVIEW ─── */
+    .cv-preview-shell{display:none;margin-top:18px;background:var(--card);border:1px solid var(--border);border-radius:28px;padding:20px;box-shadow:var(--shadow)}
     .cv-preview-shell.active{display:block}
-    .cv-preview-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:14px
-    }
-    .cv-theme-tools{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center
-    }
-    .cv-theme-tools select{
-      width:auto;
-      min-width:190px;
-      margin-bottom:0
-    }
-    .cv-paper{
-      width:794px;
-      max-width:100%;
-      min-height:1123px;
-      background:#fff;
-      color:#111827;
-      margin:0 auto;
-      border-radius:10px;
-      overflow:hidden;
-      box-shadow:0 20px 60px rgba(15,23,42,.18);
-      border:1px solid #e5e7eb;
-      font-family:Arial,Helvetica,sans-serif
-    }
+    .cv-preview-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+    .cv-theme-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .cv-theme-tools select{width:auto;min-width:190px;margin-bottom:0}
+    .cv-paper{width:794px;max-width:100%;min-height:1123px;background:#fff;color:#111827;margin:0 auto;border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(15,23,42,.18);border:1px solid #e5e7eb;font-family:Arial,Helvetica,sans-serif}
     .cv-paper *{box-sizing:border-box}
-    .cv-header{
-      padding:36px 42px 28px;
-      background:#0f172a;
-      color:#fff
-    }
-    .cv-name{
-      font-size:31px;
-      line-height:1.1;
-      font-weight:800;
-      letter-spacing:.02em;
-      text-transform:uppercase
-    }
-    .cv-role{
-      margin-top:8px;
-      color:#bfdbfe;
-      font-size:14px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase
-    }
-    .cv-contact{
-      margin-top:18px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px 18px;
-      font-size:11px;
-      color:#e5e7eb
-    }
-    .cv-body{
-      padding:30px 42px 42px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:20px
-    }
-    .cv-section{
-      break-inside:avoid;
-      page-break-inside:avoid
-    }
-    .cv-section h3{
-      font-size:13px;
-      color:#1d4ed8;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      border-bottom:1px solid #dbeafe;
-      padding-bottom:7px;
-      margin-bottom:10px
-    }
-    .cv-section p{
-      font-size:12px;
-      line-height:1.62;
-      color:#374151
-    }
-    .cv-section ul{
-      padding-left:18px;
-      color:#374151;
-      line-height:1.55;
-      font-size:12px
-    }
+    .cv-header{padding:36px 42px 28px;background:#0f172a;color:#fff}
+    .cv-name{font-size:31px;line-height:1.1;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+    .cv-role{margin-top:8px;color:#bfdbfe;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .cv-contact{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px 18px;font-size:11px;color:#e5e7eb}
+    .cv-body{padding:30px 42px 42px;display:grid;grid-template-columns:1fr;gap:20px}
+    .cv-section{break-inside:avoid;page-break-inside:avoid}
+    .cv-section h3{font-size:13px;color:#1d4ed8;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid #dbeafe;padding-bottom:7px;margin-bottom:10px}
+    .cv-section p{font-size:12px;line-height:1.62;color:#374151}
+    .cv-section ul{padding-left:18px;color:#374151;line-height:1.55;font-size:12px}
     .cv-section li{margin-bottom:5px}
-    .skill-grid{
-      display:flex;
-      flex-wrap:wrap;
-      gap:7px
-    }
-    .skill-tag{
-      border:1px solid #bfdbfe;
-      background:#eff6ff;
-      color:#1e40af;
-      border-radius:999px;
-      padding:6px 9px;
-      font-size:11px;
-      font-weight:700
-    }
-    .cv-job{
-      margin-bottom:13px
-    }
-    .cv-job-title{
-      font-size:13px;
-      font-weight:800;
-      color:#111827
-    }
-    .cv-job-meta{
-      font-size:11px;
-      color:#6b7280;
-      margin:3px 0 7px
-    }
+    .skill-grid{display:flex;flex-wrap:wrap;gap:7px}
+    .skill-tag{border:1px solid #bfdbfe;background:#eff6ff;color:#1e40af;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:700}
+    .cv-job{margin-bottom:13px}
+    .cv-job-title{font-size:13px;font-weight:800;color:#111827}
+    .cv-job-meta{font-size:11px;color:#6b7280;margin:3px 0 7px}
     .theme-modern .cv-header{background:linear-gradient(135deg,#0f172a,#1d4ed8)}
     .theme-minimal .cv-header{background:#fff;color:#111827;border-bottom:3px solid #111827}
     .theme-minimal .cv-role{color:#374151}
@@ -317,80 +215,105 @@
     .theme-executive .cv-header{background:#111827}
     .theme-executive .cv-section h3{color:#92400e;border-bottom-color:#fde68a}
     .theme-executive .skill-tag{background:#fffbeb;border-color:#fde68a;color:#92400e}
-    .generated-note{
-      color:var(--muted);
-      font-size:.86rem;
-      margin-top:10px;
-      line-height:1.5
-    }
-    @media(max-width:860px){
-      .cv-paper{width:100%;min-height:auto}
-      .cv-header,.cv-body{padding-left:24px;padding-right:24px}
-    }
-
+    .generated-note{color:var(--muted);font-size:.86rem;margin-top:10px;line-height:1.5}
+    @media(max-width:860px){.cv-paper{width:100%;min-height:auto}.cv-header,.cv-body{padding-left:24px;padding-right:24px}}
   </style>
 </head>
 <body>
+  <!-- Hidden file input OUTSIDE the upload zone to prevent double-trigger -->
+  <input id="resumeFile" type="file" accept=".pdf,.docx,.txt" aria-label="Upload resume file" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+
   <header>
-    <div class="logo"><div class="logo-icon">AI</div><span>ATS Resume Analyzer</span></div>
-    <div class="nav"><a href="#analyzer">Analyzer</a><a href="#results">Report</a><button class="btn secondary" onclick="toggleDarkMode()">Dark Mode</button><div class="badge">Gemini AI Backend</div></div>
+    <div class="logo"><div class="logo-icon" aria-hidden="true">AI</div><span>ATS Resume Analyzer</span></div>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#analyzer">Analyzer</a>
+      <a href="#results">Report</a>
+      <button class="btn secondary" onclick="toggleDarkMode()" aria-label="Toggle dark mode">Dark Mode</button>
+      <div class="badge" aria-label="AI Backend: Gemini AI">Gemini AI Backend</div>
+    </nav>
   </header>
 
-  <section class="hero">
+  <section class="hero" aria-labelledby="heroHeading">
     <div>
-      <div class="eyebrow"><span class="pulse"></span> Live AI-powered resume screening</div>
-      <h1>Build a stronger CV for <span class="gradient">every job application.</span></h1>
+      <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> Live AI-powered resume screening</div>
+      <h1 id="heroHeading">Build a stronger CV for <span class="gradient">every job application.</span></h1>
       <p>Upload your CV, paste the job description, and get an ATS score with matched keywords, missing terms, structure checks, readability analysis, and AI-backed improvement guidance.</p>
-      <div class="actions"><a class="btn primary" href="#analyzer">Start Analysis</a><button class="btn secondary" onclick="loadRandomSample();document.getElementById('analyzer').scrollIntoView({behavior:'smooth'});">Try Random Sample</button></div>
+      <div class="actions">
+        <a class="btn primary" href="#analyzer">Start Analysis</a>
+        <button class="btn secondary" onclick="loadRandomSample();document.getElementById('analyzer').scrollIntoView({behavior:'smooth'});">Try Random Sample</button>
+      </div>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-top"><h3>ATS Score Preview</h3><span class="live"><span class="pulse"></span>Live</span></div>
-      <div class="ring"><span>86%</span></div>
-      <div class="mini"><div><span>Keyword Match</span><strong>Strong</strong></div><div><span>AI Feedback</span><strong>Enabled</strong></div><div><span>Report Export</span><strong>Ready</strong></div></div>
+    <div class="hero-card" aria-label="Sample ATS score preview">
+      <div class="hero-card-top"><h3>ATS Score Preview</h3><span class="live"><span class="pulse" aria-hidden="true"></span>Live</span></div>
+      <div class="ring" role="img" aria-label="Sample ATS score: 86 percent"><span>86%</span></div>
+      <div class="mini">
+        <div><span>Keyword Match</span><strong>Strong</strong></div>
+        <div><span>AI Feedback</span><strong>Enabled</strong></div>
+        <div><span>Report Export</span><strong>Ready</strong></div>
+      </div>
     </div>
   </section>
 
-  <section class="features">
-    <div class="feature fade"><div class="feature-icon">🤖</div><strong>AI Feedback</strong><span>Practical suggestions based on your CV and job requirements.</span></div>
-    <div class="feature fade"><div class="feature-icon">📄</div><strong>Resume Parsing</strong><span>Extract text from PDF, DOCX, and TXT files.</span></div>
-    <div class="feature fade"><div class="feature-icon">🎯</div><strong>Keyword Matching</strong><span>Identify matched and missing job terms quickly.</span></div>
-    <div class="feature fade"><div class="feature-icon">🧾</div><strong>Professional Report</strong><span>Download, copy, or print the final analysis.</span></div>
+  <section class="features" aria-label="Features">
+    <div class="feature fade"><div class="feature-icon" aria-hidden="true">🤖</div><strong>AI Feedback</strong><span>Practical suggestions based on your CV and job requirements.</span></div>
+    <div class="feature fade"><div class="feature-icon" aria-hidden="true">📄</div><strong>Resume Parsing</strong><span>Extract text from PDF, DOCX, and TXT files.</span></div>
+    <div class="feature fade"><div class="feature-icon" aria-hidden="true">🎯</div><strong>Keyword Matching</strong><span>Identify matched and missing job terms quickly.</span></div>
+    <div class="feature fade"><div class="feature-icon" aria-hidden="true">🧾</div><strong>Professional Report</strong><span>Download, copy, or print the final analysis.</span></div>
   </section>
 
   <main>
-    <section class="tools-grid fade">
+    <section class="tools-grid fade" aria-label="Feature highlights">
       <div class="tool-card"><strong>Auto Save</strong><span>CV and job description are saved locally while editing.</span></div>
       <div class="tool-card"><strong>Quality Checks</strong><span>Checks sections, length, formatting, and numbers.</span></div>
       <div class="tool-card"><strong>Multiple Samples</strong><span>Try different roles instantly before using real data.</span></div>
       <div class="tool-card"><strong>Export Tools</strong><span>Download TXT, copy summary, or print report.</span></div>
     </section>
 
-    <section id="analyzer">
+    <section id="analyzer" aria-labelledby="analyzerHeading">
       <div class="section-title fade">
-        <div><h2>CV + Job Description Analyzer</h2><p>Use a full job description for best results. Short titles like “broker” give weak analysis.</p></div>
-        <div id="statusPill" class="status-pill"><span class="dot"></span><span id="apiStatus">Checking backend...</span></div>
+        <div><h2 id="analyzerHeading">CV + Job Description Analyzer</h2><p>Use a full job description for best results. Short titles like "broker" give weak analysis.</p></div>
+        <div id="statusPill" class="status-pill" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="apiStatus">Checking backend...</span></div>
       </div>
 
       <div class="analyzer">
         <div class="panel fade">
           <h3>1. Upload or paste CV</h3>
-          <p class="helper">Use a text-based PDF, DOCX, or TXT file. Scanned PDFs need OCR first.</p>
-          <label id="uploadZone" class="upload-zone" for="resumeFile">
-            <div class="upload-icon">📄</div>
+          <p class="helper">Use a text-based PDF, DOCX, or TXT file. Max 10 MB. Scanned PDFs need OCR first.</p>
+
+          <!-- Upload zone is a div (not label) to prevent double-trigger -->
+          <div
+            id="uploadZone"
+            class="upload-zone"
+            role="button"
+            tabindex="0"
+            aria-label="Upload CV — click or drag and drop a PDF, DOCX, or TXT file"
+            onclick="triggerFileInput(event)"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('resumeFile').click()}"
+          >
+            <div class="upload-icon" aria-hidden="true">📄</div>
             <div class="upload-title">Drop your CV here or click to upload</div>
-            <div class="upload-sub">PDF, DOCX, or TXT supported. Text-based PDFs work best.</div>
-            <button type="button" class="btn secondary" onclick="document.getElementById('resumeFile').click()">Choose File</button>
-            <input id="resumeFile" type="file" accept=".pdf,.docx,.txt">
-            <div id="filePill" class="file-pill">
-              <div>
+            <div class="upload-sub">PDF, DOCX, or TXT · Max 10 MB · Text-based PDFs work best</div>
+            <button
+              type="button"
+              class="upload-choose-btn"
+              onclick="event.stopPropagation();document.getElementById('resumeFile').click()"
+              aria-label="Choose a file to upload"
+            >
+              <span aria-hidden="true">📁</span> Choose File
+            </button>
+            <div class="upload-size-note">Files are processed locally — your data is not stored on our servers.</div>
+
+            <div id="filePill" class="file-pill" role="status" aria-live="polite">
+              <div class="file-pill-icon" aria-hidden="true">📄</div>
+              <div class="file-info">
                 <div id="fileName" class="file-name">No file selected</div>
                 <div id="fileMeta" class="file-meta">Upload a resume to preview it here</div>
               </div>
-              <button type="button" class="small-btn" onclick="clearUploadedFile()">Remove</button>
+              <button type="button" class="file-remove-btn" onclick="event.stopPropagation();clearUploadedFile()" aria-label="Remove uploaded file">✕ Remove</button>
             </div>
-          </label>
+          </div>
 
-          <div class="extract-stats">
+          <div class="extract-stats" role="status" aria-label="Extraction statistics">
             <div class="extract-stat"><span>Words</span><strong id="cvWordStat">0</strong></div>
             <div class="extract-stat"><span>Characters</span><strong id="cvCharStat">0</strong></div>
             <div class="extract-stat"><span>Pages</span><strong id="cvPageStat">0</strong></div>
@@ -399,20 +322,20 @@
           <div class="preview-grid">
             <div class="preview-card">
               <h4><span>Document Preview</span><span id="previewType" class="helper">Waiting</span></h4>
-              <div id="pdfPreview" class="pdf-preview">Upload a PDF to see the first page preview.</div>
+              <div id="pdfPreview" class="pdf-preview" role="img" aria-label="Document visual preview">Upload a PDF to see the first page preview.</div>
             </div>
             <div class="preview-card">
               <h4><span>Extracted CV Text</span><span id="extractStatus" class="helper">Not extracted</span></h4>
-              <div id="textPreview" class="text-preview">Your extracted CV text will appear here in a clean preview box.</div>
+              <div id="textPreview" class="text-preview" aria-label="Extracted CV text preview">Your extracted CV text will appear here in a clean preview box.</div>
               <div class="preview-actions">
-                <button type="button" class="small-btn" onclick="toggleFullText()">Edit Full Text</button>
-                <button type="button" class="small-btn" onclick="copyCVText()">Copy CV Text</button>
-                <button type="button" class="small-btn" onclick="clearCVText()">Clear Text</button>
+                <button type="button" class="small-btn" onclick="toggleFullText()" aria-label="Toggle full text editor">Edit Full Text</button>
+                <button type="button" class="small-btn" onclick="copyCVText()" aria-label="Copy CV text to clipboard">Copy CV Text</button>
+                <button type="button" class="small-btn" onclick="clearCVText()" aria-label="Clear CV text">Clear Text</button>
               </div>
             </div>
           </div>
 
-          <textarea id="resumeText" class="hidden-textarea" placeholder="Extracted or pasted CV text appears here..." oninput="syncTextPreview();autoSave()"></textarea>
+          <textarea id="resumeText" class="hidden-textarea" placeholder="Extracted or pasted CV text appears here..." oninput="syncTextPreview();autoSave()" aria-label="Full CV text editor"></textarea>
         </div>
 
         <div class="panel fade">
@@ -420,7 +343,7 @@
           <p class="helper">Paste the full job description, including responsibilities, skills, tools, and requirements.</p>
 
           <div class="sample-row">
-            <select id="sampleSelect" onchange="loadSampleData(this.value)">
+            <select id="sampleSelect" onchange="loadSampleData(this.value)" aria-label="Choose a sample CV and job description">
               <option value="">Choose a sample CV + job description</option>
               <option value="frontend">Frontend Developer</option>
               <option value="operations">Operations Coordinator</option>
@@ -431,33 +354,33 @@
               <option value="hr">HR Assistant</option>
               <option value="admin">Administrative Assistant</option>
             </select>
-            <button class="btn secondary" onclick="loadRandomSample()">Random Sample</button>
+            <button class="btn secondary" onclick="loadRandomSample()" aria-label="Load a random sample">Random Sample</button>
           </div>
           <div class="sample-note">Samples are for testing. Replace them with your own CV and job description for real scoring.</div>
 
-          <input id="jobTitle" type="text" placeholder="Job title, e.g. Operations Coordinator" oninput="autoSave()">
-          <textarea id="jobDescription" placeholder="Paste full job description here..." oninput="autoSave()"></textarea>
+          <input id="jobTitle" type="text" placeholder="Job title, e.g. Operations Coordinator" oninput="autoSave()" aria-label="Job title">
+          <textarea id="jobDescription" placeholder="Paste full job description here..." oninput="autoSave()" aria-label="Job description"></textarea>
           <div class="controls">
-            <button class="btn primary" onclick="analyzeATS()">Generate ATS Score</button>
-            <button class="btn secondary" onclick="loadSampleData(document.getElementById('sampleSelect').value || 'frontend')">Load Sample</button>
-            <button class="btn secondary" onclick="restoreDraft()">Restore Draft</button>
-            <button class="btn secondary" onclick="clearAll()">Clear</button>
-            <button class="btn secondary" onclick="downloadReport()">Download</button>
-            <button class="btn secondary" onclick="copyReport()">Copy</button>
-            <button class="btn secondary" onclick="window.print()">Print</button>
+            <button class="btn primary" onclick="analyzeATS()" aria-label="Generate ATS score">Generate ATS Score</button>
+            <button class="btn secondary" onclick="loadSampleData(document.getElementById('sampleSelect').value || 'frontend')" aria-label="Load sample data">Load Sample</button>
+            <button class="btn secondary" onclick="restoreDraft()" aria-label="Restore saved draft">Restore Draft</button>
+            <button class="btn secondary" onclick="clearAll()" aria-label="Clear all fields">Clear</button>
+            <button class="btn secondary" onclick="downloadReport()" aria-label="Download report as text file">Download</button>
+            <button class="btn secondary" onclick="copyReport()" aria-label="Copy report to clipboard">Copy</button>
+            <button class="btn secondary" onclick="window.print()" aria-label="Print report">Print</button>
           </div>
-          <div id="loader" class="loader">Analyzing with AI backend...</div>
+          <div id="loader" class="loader" role="status" aria-live="polite">Analyzing with AI backend...</div>
         </div>
       </div>
     </section>
 
-    <section class="rewrite-panel fade" id="rewriteTool">
+    <section class="rewrite-panel fade" id="rewriteTool" aria-labelledby="rewriteHeading">
       <div class="rewrite-head">
         <div>
-          <h3>AI ATS-Friendly CV Generator</h3>
+          <h3 id="rewriteHeading">AI ATS-Friendly CV Generator</h3>
           <p class="helper">Need a stronger version? Generate a cleaner, ATS-friendly CV tailored to the job description using your Gemini backend.</p>
         </div>
-        <button class="btn primary" onclick="generateImprovedCV()">Generate Improved CV</button>
+        <button class="btn primary" onclick="generateImprovedCV()" aria-label="Generate an improved ATS-friendly CV">Generate Improved CV</button>
       </div>
 
       <div class="rewrite-grid">
@@ -467,17 +390,17 @@
       </div>
 
       <p class="helper">The generated CV keeps information truthful and uses simple formatting for better ATS readability. Review before using it.</p>
-      <div id="rewriteLoader" class="loader">Generating improved ATS-friendly CV...</div>
+      <div id="rewriteLoader" class="loader" role="status" aria-live="polite">Generating improved ATS-friendly CV...</div>
 
       <div id="rewriteOutput" class="rewrite-output">
         <div class="rewrite-toolbar">
-          <button class="btn secondary" onclick="copyGeneratedCV()">Copy Improved CV</button>
-          <button class="btn secondary" onclick="downloadGeneratedCV()">Download TXT</button>
-          <button class="btn primary" onclick="downloadGeneratedPDF()">Download PDF</button>
-          <button class="btn secondary" onclick="useGeneratedCV()">Use as Current CV</button>
-          <button class="btn secondary" onclick="clearGeneratedCV()">Clear Generated CV</button>
+          <button class="btn secondary" onclick="copyGeneratedCV()" aria-label="Copy improved CV to clipboard">Copy Improved CV</button>
+          <button class="btn secondary" onclick="downloadGeneratedCV()" aria-label="Download improved CV as TXT">Download TXT</button>
+          <button class="btn primary" onclick="downloadGeneratedPDF()" aria-label="Download improved CV as PDF">Download PDF</button>
+          <button class="btn secondary" onclick="useGeneratedCV()" aria-label="Use generated CV as current CV">Use as Current CV</button>
+          <button class="btn secondary" onclick="clearGeneratedCV()" aria-label="Clear generated CV">Clear Generated CV</button>
         </div>
-        <textarea id="generatedCV" placeholder="Generated ATS-friendly CV will appear here..." oninput="renderCVPreviewFromText()"></textarea>
+        <textarea id="generatedCV" placeholder="Generated ATS-friendly CV will appear here..." oninput="renderCVPreviewFromText()" aria-label="Generated ATS-friendly CV text"></textarea>
 
         <div id="cvPreviewShell" class="cv-preview-shell">
           <div class="cv-preview-head">
@@ -486,23 +409,23 @@
               <p class="helper">Clean professional layout designed for ATS readability and recruiter review.</p>
             </div>
             <div class="cv-theme-tools">
-              <select id="cvTheme" onchange="renderCVPreviewFromText()">
+              <select id="cvTheme" onchange="renderCVPreviewFromText()" aria-label="Choose CV theme">
                 <option value="modern">Modern Blue</option>
                 <option value="minimal">Minimal Black</option>
                 <option value="executive">Executive Gold</option>
               </select>
-              <button class="btn primary" onclick="downloadGeneratedPDF()">Download PDF</button>
+              <button class="btn primary" onclick="downloadGeneratedPDF()" aria-label="Download PDF">Download PDF</button>
             </div>
           </div>
-          <div id="cvPaper" class="cv-paper theme-modern"></div>
+          <div id="cvPaper" class="cv-paper theme-modern" aria-label="CV preview"></div>
           <div class="generated-note">Tip: Review the generated CV and edit the text box before downloading. The PDF uses simple sections, readable fonts, and clean spacing for ATS-friendly presentation.</div>
         </div>
       </div>
     </section>
 
-    <section id="results" class="results">
-      <div class="section-title"><div><h2>ATS Analysis Report</h2><p id="providerText">Report generated.</p></div></div>
-      <div class="metrics">
+    <section id="results" class="results" aria-labelledby="resultsHeading">
+      <div class="section-title"><div><h2 id="resultsHeading">ATS Analysis Report</h2><p id="providerText">Report generated.</p></div></div>
+      <div class="metrics" role="group" aria-label="Analysis metrics">
         <div class="metric"><span>Resume Words</span><strong id="resumeWords">0</strong></div>
         <div class="metric"><span>Job Keywords</span><strong id="jobKeywords">0</strong></div>
         <div class="metric"><span>Matched</span><strong id="matchedCount">0</strong></div>
@@ -510,14 +433,20 @@
       </div>
       <div class="result-grid">
         <div class="score-card">
-          <h3>ATS Score</h3><div id="scoreLabel" class="score-label">Ready</div><div id="scoreNumber" class="score-number">0%</div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><p id="scoreSummary" class="helper"></p>
+          <h3>ATS Score</h3>
+          <div id="scoreLabel" class="score-label" role="status">Ready</div>
+          <div id="scoreNumber" class="score-number" aria-label="ATS score">0%</div>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Overall ATS score">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <p id="scoreSummary" class="helper"></p>
           <div class="breakdown"><span>Keywords</span><div class="mini-progress"><div id="keywordBreakdown"></div></div><strong id="keywordScoreText">0%</strong></div>
           <div class="breakdown"><span>Structure</span><div class="mini-progress"><div id="structureBreakdown"></div></div><strong id="structureScoreText">0%</strong></div>
           <div class="breakdown"><span>Readability</span><div class="mini-progress"><div id="readabilityBreakdown"></div></div><strong id="readabilityScoreText">0%</strong></div>
         </div>
         <div class="insights">
-          <div class="insight"><h4>Matched Keywords</h4><div id="matchedKeywords" class="chips"></div></div>
-          <div class="insight"><h4>Missing Keywords</h4><div id="missingKeywords" class="chips"></div></div>
+          <div class="insight"><h4>Matched Keywords</h4><div id="matchedKeywords" class="chips" role="list"></div></div>
+          <div class="insight"><h4>Missing Keywords</h4><div id="missingKeywords" class="chips" role="list"></div></div>
           <div class="insight"><h4>Quality Checks</h4><div id="qualityChecks" class="quality-list"></div></div>
           <div class="insight"><h4>AI Feedback</h4><p id="aiFeedback" class="helper"></p></div>
           <div class="insight"><h4>Suggestions</h4><ul id="suggestions"></ul></div>
@@ -530,7 +459,9 @@
 
   <script>
     const API_BASE_URL = "https://ats-ai-backend.vercel.app";
+    const MAX_FILE_SIZE_MB = 10;
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
     const stopWords = new Set("the and for with from that this you your are will have has was were our their they into about work role job candidate company team using use able such all any can who what when where how why must should would could experience years skills responsibilities requirements including across within plus to in of a an on at by be is as or it we us i me my he she them his her its".split(" "));
 
     const samples = {
@@ -544,13 +475,16 @@
       admin:{title:"Administrative Assistant",resume:`Summary\nAdministrative assistant with experience in calendar management, office coordination, document preparation, email communication, and data entry.\n\nSkills\nAdministration, scheduling, Microsoft Office, documentation, data entry, communication, time management\n\nExperience\nManaged calendars, prepared documents, handled office communication, maintained records, supported managers, and improved administrative workflows.`,job:`Looking for an Administrative Assistant with skills in scheduling, Microsoft Office, document management, email communication, data entry, office coordination, multitasking, and time management.`}
     };
 
+    /* ── Helpers ── */
     function apiUrl(path){return API_BASE_URL.replace(/\/$/,"")+path}
     function normalize(text=""){return String(text).toLowerCase().replace(/[^a-z0-9+#./\s-]/g," ").replace(/\s+/g," ").trim()}
     function wordCount(text=""){return normalize(text).split(" ").filter(Boolean).length}
     function keywords(text=""){return [...new Set(normalize(text).split(" ").filter(word=>word.length>2&&!stopWords.has(word)))].slice(0,60)}
-    function chip(text,type){const span=document.createElement("span");span.className="chip "+type;span.textContent=text;return span}
+    function chip(text,type){const span=document.createElement("span");span.className="chip "+type;span.setAttribute("role","listitem");span.textContent=text;return span}
     function updateStatus(message,mode){document.getElementById("apiStatus").textContent=message;document.getElementById("statusPill").className=mode?"status-pill "+mode:"status-pill"}
 
+    /* ── API health check with auto-cleanup ── */
+    let apiCheckInterval = null;
     async function checkApi(){
       updateStatus("Checking backend...","");
       try{
@@ -560,70 +494,82 @@
         clearTimeout(timeout);
         if(!response.ok)throw new Error("Backend returned status "+response.status);
         const data=await response.json();
-        if(data.server==="ok"&&data.aiConfigured===true)updateStatus("AI backend connected","ok");
-        else if(data.server==="ok"&&data.aiConfigured===false)updateStatus("Backend online, AI key missing","fail");
+        if(data.server==="ok"&&data.aiConfigured===true) updateStatus("AI backend connected","ok");
+        else if(data.server==="ok"&&data.aiConfigured===false) updateStatus("Backend online, AI key missing","fail");
         else updateStatus("Backend responded unexpectedly","fail");
       }catch(error){updateStatus("Backend waking up or unreachable","fail")}
     }
 
-    const uploadZone = document.getElementById("uploadZone");
+    /* ── File input (lives OUTSIDE upload zone) ── */
     const resumeInput = document.getElementById("resumeFile");
+    const uploadZone  = document.getElementById("uploadZone");
 
-    ["dragenter","dragover"].forEach(eventName=>{
-      uploadZone.addEventListener(eventName,event=>{
-        event.preventDefault();
+    /* Clicking the upload zone opens the file dialog */
+    function triggerFileInput(event){
+      // Don't double-trigger if the actual "Choose File" button was clicked
+      if(event.target.closest(".upload-choose-btn") || event.target.closest(".file-remove-btn")){
+        return;
+      }
+      resumeInput.click();
+    }
+
+    /* Drag-and-drop */
+    ["dragenter","dragover"].forEach(name=>{
+      uploadZone.addEventListener(name,event=>{
+        event.preventDefault();event.stopPropagation();
         uploadZone.classList.add("dragover");
       });
     });
-
-    ["dragleave","drop"].forEach(eventName=>{
-      uploadZone.addEventListener(eventName,event=>{
-        event.preventDefault();
+    ["dragleave","drop"].forEach(name=>{
+      uploadZone.addEventListener(name,event=>{
+        event.preventDefault();event.stopPropagation();
         uploadZone.classList.remove("dragover");
       });
     });
-
     uploadZone.addEventListener("drop",event=>{
-      const file = event.dataTransfer.files[0];
-      if(!file) return;
-      resumeInput.files = event.dataTransfer.files;
-      handleResumeFile(file);
+      const file=event.dataTransfer?.files?.[0];
+      if(file) handleResumeFile(file);
     });
 
-    resumeInput.addEventListener("change",async event=>{
-      const file=event.target.files[0];
-      if(!file)return;
-      handleResumeFile(file);
+    /* Native input change (fires once per selection, even re-selecting the same file) */
+    resumeInput.addEventListener("change",event=>{
+      const file=event.target.files?.[0];
+      if(file) handleResumeFile(file);
+      // Reset so the same file can be re-selected later
+      resumeInput.value="";
     });
 
+    /* ── File handling ── */
     async function handleResumeFile(file){
+      // File size validation
+      const sizeMB = file.size/1024/1024;
+      if(sizeMB > MAX_FILE_SIZE_MB){
+        alert(`File is too large (${sizeMB.toFixed(1)} MB). Please use a file under ${MAX_FILE_SIZE_MB} MB.`);
+        return;
+      }
       try{
         showFileInfo(file);
-        document.getElementById("extractStatus").textContent = "Extracting...";
-        document.getElementById("textPreview").textContent = "Reading your CV. This may take a moment...";
-        let text="";
-        let pages=0;
+        document.getElementById("extractStatus").textContent="Extracting...";
+        document.getElementById("textPreview").textContent="Reading your CV. This may take a moment...";
+        let text="", pages=0;
         const ext=file.name.split(".").pop().toLowerCase();
 
         if(ext==="pdf"){
-          const result = await readPDF(file, true);
-          text = result.text;
-          pages = result.pages;
+          const result=await readPDF(file,true);
+          text=result.text; pages=result.pages;
         }else if(ext==="docx"){
-          text=await readDOCX(file);
-          pages=1;
-          document.getElementById("pdfPreview").textContent="DOCX uploaded. Visual preview is available for PDF only, but text extraction is complete.";
+          text=await readDOCX(file); pages=1;
+          document.getElementById("pdfPreview").textContent="DOCX uploaded. Visual preview is for PDF only, but text extraction is complete.";
           document.getElementById("previewType").textContent="DOCX";
         }else if(ext==="txt"){
-          text=await file.text();
-          pages=1;
-          document.getElementById("pdfPreview").textContent="TXT uploaded. No visual page preview required.";
+          text=await file.text(); pages=1;
+          document.getElementById("pdfPreview").textContent="TXT uploaded. No visual page preview needed.";
           document.getElementById("previewType").textContent="TXT";
         }else{
-          throw new Error("Unsupported file type");
+          throw new Error("Unsupported file type. Please use PDF, DOCX, or TXT.");
         }
 
-        if(!text.trim())throw new Error("No readable text found");
+        if(!text.trim()) throw new Error("No readable text found. If this is a scanned PDF, run OCR first.");
         document.getElementById("resumeText").value=text.trim();
         document.getElementById("cvPageStat").textContent=pages;
         syncTextPreview();
@@ -631,18 +577,20 @@
         autoSave();
       }catch(error){
         document.getElementById("extractStatus").textContent="Failed";
-        document.getElementById("textPreview").textContent="Could not extract CV text. If this is a scanned PDF, convert it with OCR first.";
-        alert("Could not extract CV text. Reason: "+error.message);
+        document.getElementById("textPreview").textContent="Could not extract CV text. "+error.message;
+        alert("Could not extract CV text.\n\n"+error.message);
       }
     }
 
     function showFileInfo(file){
       document.getElementById("filePill").classList.add("active");
       document.getElementById("fileName").textContent=file.name;
-      document.getElementById("fileMeta").textContent=`${(file.size/1024/1024).toFixed(2)} MB • ${file.type || "file"}`;
+      const sizeMB=(file.size/1024/1024).toFixed(2);
+      const typeLabel=file.type||file.name.split(".").pop().toUpperCase()||"file";
+      document.getElementById("fileMeta").textContent=`${sizeMB} MB · ${typeLabel}`;
     }
 
-    async function readPDF(file, renderPreview=false){
+    async function readPDF(file,renderPreview=false){
       const arrayBuffer=await file.arrayBuffer();
       const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise;
       let text="";
@@ -650,22 +598,20 @@
         const page=await pdf.getPage(i);
         const content=await page.getTextContent();
         text+=content.items.map(item=>item.str).join(" ")+"\n";
-        if(i===1 && renderPreview) await renderPDFPreview(page);
+        if(i===1&&renderPreview) await renderPDFPreview(page);
       }
       document.getElementById("previewType").textContent="PDF";
-      return {text,pages:pdf.numPages};
+      return{text,pages:pdf.numPages};
     }
 
     async function renderPDFPreview(page){
       const viewport=page.getViewport({scale:1.15});
       const canvas=document.createElement("canvas");
-      const context=canvas.getContext("2d");
-      canvas.height=viewport.height;
-      canvas.width=viewport.width;
-      await page.render({canvasContext:context,viewport}).promise;
+      canvas.getContext("2d");
+      canvas.height=viewport.height; canvas.width=viewport.width;
+      await page.render({canvasContext:canvas.getContext("2d"),viewport}).promise;
       const box=document.getElementById("pdfPreview");
-      box.innerHTML="";
-      box.appendChild(canvas);
+      box.innerHTML=""; box.appendChild(canvas);
     }
 
     async function readDOCX(file){
@@ -676,31 +622,21 @@
 
     function syncTextPreview(){
       const text=document.getElementById("resumeText").value.trim();
-      document.getElementById("textPreview").textContent=text || "Your extracted CV text will appear here in a clean preview box.";
+      document.getElementById("textPreview").textContent=text||"Your extracted CV text will appear here.";
       document.getElementById("cvWordStat").textContent=wordCount(text);
       document.getElementById("cvCharStat").textContent=text.length;
       if(!text) document.getElementById("extractStatus").textContent="Not extracted";
     }
 
-    function toggleFullText(){
-      document.getElementById("resumeText").classList.toggle("open");
-    }
-
+    function toggleFullText(){document.getElementById("resumeText").classList.toggle("open")}
     async function copyCVText(){
       const text=document.getElementById("resumeText").value.trim();
       if(!text){alert("No CV text to copy.");return}
-      await navigator.clipboard.writeText(text);
-      alert("CV text copied.");
+      try{await navigator.clipboard.writeText(text);alert("CV text copied.");}
+      catch{alert("Copy failed. Please select and copy manually.");}
     }
-
-    function clearCVText(){
-      document.getElementById("resumeText").value="";
-      syncTextPreview();
-      autoSave();
-    }
-
+    function clearCVText(){document.getElementById("resumeText").value="";syncTextPreview();autoSave()}
     function clearUploadedFile(){
-      resumeInput.value="";
       document.getElementById("filePill").classList.remove("active");
       document.getElementById("fileName").textContent="No file selected";
       document.getElementById("fileMeta").textContent="Upload a resume to preview it here";
@@ -710,38 +646,49 @@
       clearCVText();
     }
 
+    /* ── ATS scoring ── */
     function localATS(resumeText,jobDescription){
-      const jobKeywords=keywords(jobDescription),resume=normalize(resumeText),matched=jobKeywords.filter(k=>resume.includes(k)),missing=jobKeywords.filter(k=>!resume.includes(k));
-      const keywordPercent=jobKeywords.length?Math.round(matched.length/jobKeywords.length*100):0;
+      const jobKws=keywords(jobDescription),resume=normalize(resumeText);
+      const matched=jobKws.filter(k=>resume.includes(k)),missing=jobKws.filter(k=>!resume.includes(k));
+      const keywordPercent=jobKws.length?Math.round(matched.length/jobKws.length*100):0;
       const sections=["summary","experience","education","skills","projects","certifications"];
       const structurePercent=Math.round(sections.filter(s=>resume.includes(s)).length/sections.length*100);
-      let readabilityPercent=100;if(resumeText.length<900)readabilityPercent-=25;if(resumeText.length>7500)readabilityPercent-=8;if((resumeText.match(/\|/g)||[]).length>8)readabilityPercent-=10;
+      let readabilityPercent=100;
+      if(resumeText.length<900) readabilityPercent-=25;
+      if(resumeText.length>7500) readabilityPercent-=8;
+      if((resumeText.match(/\|/g)||[]).length>8) readabilityPercent-=10;
       const score=Math.round(keywordPercent*.65+structurePercent*.2+readabilityPercent*.15);
-      return{score,keywordPercent,structurePercent,readabilityPercent,matchedKeywords:matched,missingKeywords:missing,summary:"Local ATS score generated.",feedback:"Backend unavailable, so local scoring was used.",suggestions:["Add missing keywords naturally if they are truthful.","Use clear Skills, Experience, Education, Projects, and Certifications sections.","Add measurable achievements with numbers, percentages, timelines, and outcomes."],aiConnected:false}
+      return{score,keywordPercent,structurePercent,readabilityPercent,matchedKeywords:matched,missingKeywords:missing,summary:"Local ATS score generated.",feedback:"Backend unavailable, so local scoring was used.",suggestions:["Add missing keywords naturally if they are truthful.","Use clear Skills, Experience, Education, Projects, and Certifications sections.","Add measurable achievements with numbers, percentages, timelines, and outcomes."],aiConnected:false};
     }
 
     function qualityChecks(resumeText){
       const n=normalize(resumeText);
-      return [
-        ["Summary section", n.includes("summary") ? "Detected" : "Missing"],
-        ["Skills section", n.includes("skills") ? "Detected" : "Missing"],
-        ["Experience section", n.includes("experience") ? "Detected" : "Missing"],
-        ["Education section", n.includes("education") ? "Detected" : "Missing"],
-        ["Measurable numbers", /\d/.test(resumeText) ? "Detected" : "Add metrics"],
-        ["Simple formatting", (resumeText.match(/\|/g)||[]).length<8 ? "Good" : "Too many separators"]
+      return[
+        ["Summary section",n.includes("summary")?"Detected":"Missing"],
+        ["Skills section",n.includes("skills")?"Detected":"Missing"],
+        ["Experience section",n.includes("experience")?"Detected":"Missing"],
+        ["Education section",n.includes("education")?"Detected":"Missing"],
+        ["Measurable numbers",/\d/.test(resumeText)?"Detected":"Add metrics"],
+        ["Simple formatting",(resumeText.match(/\|/g)||[]).length<8?"Good":"Too many separators"]
       ];
     }
 
     async function analyzeATS(){
-      const resumeText=document.getElementById("resumeText").value.trim(),jobDescription=document.getElementById("jobDescription").value.trim(),jobTitle=document.getElementById("jobTitle").value.trim();
-      if(!resumeText||!jobDescription){alert("Please add both CV text and job description.");return}
-      document.getElementById("loader").style.display="block";autoSave();
+      const resumeText=document.getElementById("resumeText").value.trim();
+      const jobDescription=document.getElementById("jobDescription").value.trim();
+      const jobTitle=document.getElementById("jobTitle").value.trim();
+      if(!resumeText||!jobDescription){alert("Please add both CV text and a job description.");return}
+      document.getElementById("loader").style.display="block";
+      autoSave();
       let result;
       try{
         const response=await fetch(apiUrl("/api/ats-score"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({resumeText,jobDescription,jobTitle})});
-        if(!response.ok)throw new Error("Backend returned status "+response.status);
+        if(!response.ok) throw new Error("Backend returned status "+response.status);
         result=await response.json();
-      }catch(error){result=localATS(resumeText,jobDescription);result.feedback="Backend unavailable, local ATS scoring used. Reason: "+error.message}
+      }catch(error){
+        result=localATS(resumeText,jobDescription);
+        result.feedback="Backend unavailable, local ATS scoring used. Reason: "+error.message;
+      }
       render(result,resumeText,jobDescription);
       document.getElementById("loader").style.display="none";
       document.getElementById("results").style.display="block";
@@ -754,197 +701,161 @@
       document.getElementById("jobKeywords").textContent=keywords(jobDescription).length;
       document.getElementById("matchedCount").textContent=(result.matchedKeywords||[]).length;
       document.getElementById("missingCount").textContent=(result.missingKeywords||[]).length;
-      const score=Number(result.score||0);document.getElementById("scoreNumber").textContent=score+"%";document.getElementById("progressBar").style.width=score+"%";document.getElementById("scoreSummary").textContent=result.summary||"";
+      const score=Number(result.score||0);
+      document.getElementById("scoreNumber").textContent=score+"%";
+      document.getElementById("progressBar").style.width=score+"%";
+      document.getElementById("progressBar").parentElement?.setAttribute("aria-valuenow",score);
+      document.getElementById("scoreSummary").textContent=result.summary||"";
       document.getElementById("scoreLabel").textContent=score>=85?"Excellent":score>=70?"Good Match":score>=50?"Average":"Needs Work";
-      setBar("keyword",Number(result.keywordPercent||0));setBar("structure",Number(result.structurePercent||0));setBar("readability",Number(result.readabilityPercent||0));
-      fillChips("matchedKeywords",result.matchedKeywords||[],"match");fillChips("missingKeywords",result.missingKeywords||[],"missing");
+      setBar("keyword",Number(result.keywordPercent||0));
+      setBar("structure",Number(result.structurePercent||0));
+      setBar("readability",Number(result.readabilityPercent||0));
+      fillChips("matchedKeywords",result.matchedKeywords||[],"match");
+      fillChips("missingKeywords",result.missingKeywords||[],"missing");
       document.getElementById("aiFeedback").textContent=result.feedback||"";
-      const list=document.getElementById("suggestions");list.innerHTML="";(result.suggestions||[]).forEach(item=>{const li=document.createElement("li");li.textContent=item;list.appendChild(li)});
-      const qc=document.getElementById("qualityChecks");qc.innerHTML="";qualityChecks(resumeText).forEach(([k,v])=>{const div=document.createElement("div");div.className="quality-item";div.innerHTML=`<span>${k}</span><strong>${v}</strong>`;qc.appendChild(div)});
+      const list=document.getElementById("suggestions");list.innerHTML="";
+      (result.suggestions||[]).forEach(item=>{const li=document.createElement("li");li.textContent=item;list.appendChild(li)});
+      const qc=document.getElementById("qualityChecks");qc.innerHTML="";
+      qualityChecks(resumeText).forEach(([k,v])=>{
+        const div=document.createElement("div");div.className="quality-item";
+        const label=document.createElement("span");label.textContent=k;
+        const val=document.createElement("strong");val.textContent=v;
+        div.appendChild(label);div.appendChild(val);qc.appendChild(div);
+      });
     }
 
     function setBar(name,value){document.getElementById(name+"Breakdown").style.width=value+"%";document.getElementById(name+"ScoreText").textContent=value+"%"}
-    function fillChips(id,array,type){const box=document.getElementById(id);box.innerHTML="";array.slice(0,30).forEach(keyword=>box.appendChild(chip(keyword,type)));if(!array.length)box.innerHTML="<p class='helper'>None found.</p>"}
-    function loadSampleData(type){const selectedType=type||document.getElementById("sampleSelect").value||"frontend";const sample=samples[selectedType]||samples.frontend;document.getElementById("sampleSelect").value=selectedType;document.getElementById("jobTitle").value=sample.title;document.getElementById("resumeText").value=sample.resume;document.getElementById("jobDescription").value=sample.job;document.getElementById("results").style.display="none";document.getElementById("pdfPreview").textContent="Sample CV loaded. Upload a PDF to see document preview.";document.getElementById("previewType").textContent="Sample";document.getElementById("cvPageStat").textContent="1";if(typeof syncTextPreview==="function")syncTextPreview();autoSave()}
+    function fillChips(id,array,type){const box=document.getElementById(id);box.innerHTML="";array.slice(0,30).forEach(kw=>box.appendChild(chip(kw,type)));if(!array.length)box.innerHTML="<p class='helper'>None found.</p>"}
+
+    /* ── Sample loaders ── */
+    function loadSampleData(type){
+      const t=type||document.getElementById("sampleSelect").value||"frontend";
+      const sample=samples[t]||samples.frontend;
+      document.getElementById("sampleSelect").value=t;
+      document.getElementById("jobTitle").value=sample.title;
+      document.getElementById("resumeText").value=sample.resume;
+      document.getElementById("jobDescription").value=sample.job;
+      document.getElementById("results").style.display="none";
+      document.getElementById("pdfPreview").textContent="Sample CV loaded. Upload a PDF to see document preview.";
+      document.getElementById("previewType").textContent="Sample";
+      document.getElementById("cvPageStat").textContent="1";
+      syncTextPreview();autoSave();
+    }
     function loadRandomSample(){const keys=Object.keys(samples);loadSampleData(keys[Math.floor(Math.random()*keys.length)])}
-    function clearAll(){["resumeText","jobDescription","jobTitle"].forEach(id=>document.getElementById(id).value="");document.getElementById("sampleSelect").value="";document.getElementById("results").style.display="none";localStorage.removeItem("atsDraft");if(typeof clearUploadedFile==="function")clearUploadedFile();}
+
+    /* ── Utils ── */
+    function clearAll(){
+      ["resumeText","jobDescription","jobTitle"].forEach(id=>document.getElementById(id).value="");
+      document.getElementById("sampleSelect").value="";
+      document.getElementById("results").style.display="none";
+      try{localStorage.removeItem("atsDraft")}catch(e){}
+      clearUploadedFile();
+    }
     function getReportText(){return document.getElementById("results").style.display==="none"?"":document.getElementById("results").innerText}
-    function downloadReport(){const text=getReportText();if(!text){alert("Generate a report first.");return}const blob=new Blob([text],{type:"text/plain"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="ats-report.txt";link.click();URL.revokeObjectURL(link.href)}
-    async function copyReport(){const text=getReportText();if(!text){alert("Generate a report first.");return}await navigator.clipboard.writeText(text);alert("Report copied.")}
-    function autoSave(){localStorage.setItem("atsDraft",JSON.stringify({resumeText:document.getElementById("resumeText").value,jobDescription:document.getElementById("jobDescription").value,jobTitle:document.getElementById("jobTitle").value}))}
-    function restoreDraft(){const d=JSON.parse(localStorage.getItem("atsDraft")||"{}");document.getElementById("resumeText").value=d.resumeText||"";document.getElementById("jobDescription").value=d.jobDescription||"";document.getElementById("jobTitle").value=d.jobTitle||"";if(typeof syncTextPreview==="function")syncTextPreview();}
-    function toggleDarkMode(){document.body.classList.toggle("dark");localStorage.setItem("atsDark",document.body.classList.contains("dark")?"1":"0")}
+    function downloadReport(){
+      const text=getReportText();if(!text){alert("Generate a report first.");return}
+      const blob=new Blob([text],{type:"text/plain"});
+      const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="ats-report.txt";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),30000);
+    }
+    async function copyReport(){
+      const text=getReportText();if(!text){alert("Generate a report first.");return}
+      try{await navigator.clipboard.writeText(text);alert("Report copied.");}
+      catch{alert("Copy failed. Please select and copy manually.");}
+    }
+    function autoSave(){
+      try{localStorage.setItem("atsDraft",JSON.stringify({resumeText:document.getElementById("resumeText").value,jobDescription:document.getElementById("jobDescription").value,jobTitle:document.getElementById("jobTitle").value}))}
+      catch(e){/* Private mode or storage full — fail silently */}
+    }
+    function restoreDraft(){
+      try{
+        const d=JSON.parse(localStorage.getItem("atsDraft")||"{}");
+        document.getElementById("resumeText").value=d.resumeText||"";
+        document.getElementById("jobDescription").value=d.jobDescription||"";
+        document.getElementById("jobTitle").value=d.jobTitle||"";
+        syncTextPreview();
+      }catch(e){/* Ignore storage errors */}
+    }
+    function toggleDarkMode(){document.body.classList.toggle("dark");try{localStorage.setItem("atsDark",document.body.classList.contains("dark")?"1":"0")}catch(e){}}
 
-
+    /* ── CV Generator ── */
     async function generateImprovedCV(){
       const resumeText=document.getElementById("resumeText").value.trim();
       const jobDescription=document.getElementById("jobDescription").value.trim();
-      const jobTitle=document.getElementById("jobTitle").value.trim() || "Target Role";
-
-      if(!resumeText || !jobDescription){
-        alert("Please add both your CV and the full job description first.");
-        return;
-      }
+      const jobTitle=document.getElementById("jobTitle").value.trim()||"Target Role";
+      if(!resumeText||!jobDescription){alert("Please add both your CV and the full job description first.");return}
 
       document.getElementById("rewriteLoader").style.display="block";
       document.getElementById("rewriteOutput").classList.remove("active");
 
-      const promptJob = `${jobDescription}
-
-IMPORTANT TASK:
-Rewrite the candidate CV into a professional ATS-friendly resume for the role: ${jobTitle}.
-
-Rules:
-- Keep it truthful.
-- Do not invent degrees, employers, certifications, or fake achievements.
-- Improve wording, structure, keyword alignment, and clarity.
-- Use simple ATS-safe formatting.
-- Include sections: Professional Summary, Core Skills, Professional Experience, Education, Additional Experience if relevant, Languages if relevant.
-- Add measurable language only where supported by the original CV.
-- Return only the improved CV text with clear section headings and bullet points. Do not use markdown tables.`;
+      const promptJob=`${jobDescription}\n\nIMPORTANT TASK:\nRewrite the candidate CV into a professional ATS-friendly resume for the role: ${jobTitle}.\n\nRules:\n- Keep it truthful.\n- Do not invent degrees, employers, certifications, or fake achievements.\n- Improve wording, structure, keyword alignment, and clarity.\n- Use simple ATS-safe formatting.\n- Include sections: Professional Summary, Core Skills, Professional Experience, Education, Additional Experience if relevant, Languages if relevant.\n- Add measurable language only where supported by the original CV.\n- Return only the improved CV text with clear section headings and bullet points. Do not use markdown tables.`;
 
       try{
-        const response=await fetch(apiUrl("/api/ats-score"),{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({
-            resumeText,
-            jobDescription:promptJob,
-            jobTitle:"ATS CV Rewrite"
-          })
-        });
-
+        const response=await fetch(apiUrl("/api/ats-score"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({resumeText,jobDescription:promptJob,jobTitle:"ATS CV Rewrite"})});
         if(!response.ok) throw new Error("Backend returned status "+response.status);
-
         const data=await response.json();
-        let improved = "";
-
-        if(data.improvedCV) improved = data.improvedCV;
-        else if(data.rewrittenCV) improved = data.rewrittenCV;
-        else if(data.generatedCV) improved = data.generatedCV;
-        else improved = buildLocalImprovedCV(resumeText, jobDescription, jobTitle, data);
-
+        let improved=data.improvedCV||data.rewrittenCV||data.generatedCV||buildLocalImprovedCV(resumeText,jobDescription,jobTitle,data);
         document.getElementById("generatedCV").value=improved.trim();
         document.getElementById("rewriteOutput").classList.add("active");
         renderCVPreviewFromText();
       }catch(error){
-        const local = buildLocalImprovedCV(resumeText, jobDescription, jobTitle, {});
-        document.getElementById("generatedCV").value=local + "\n\nNote: AI backend rewrite was unavailable, so a local ATS-friendly rewrite template was generated. Reason: " + error.message;
+        const local=buildLocalImprovedCV(resumeText,jobDescription,jobTitle,{});
+        document.getElementById("generatedCV").value=local+"\n\nNote: AI backend rewrite was unavailable. Reason: "+error.message;
         document.getElementById("rewriteOutput").classList.add("active");
         renderCVPreviewFromText();
       }
-
       document.getElementById("rewriteLoader").style.display="none";
       document.getElementById("rewriteTool").scrollIntoView({behavior:"smooth"});
     }
 
-    function buildLocalImprovedCV(resumeText, jobDescription, jobTitle, aiData){
-      const resume = resumeText.trim();
-      const matched = (aiData.matchedKeywords || keywords(jobDescription).filter(k=>normalize(resume).includes(k))).slice(0,18);
-      const missing = (aiData.missingKeywords || keywords(jobDescription).filter(k=>!normalize(resume).includes(k))).slice(0,12);
-
-      return `ATS-FRIENDLY CV - ${jobTitle.toUpperCase()}
-
-PROFESSIONAL SUMMARY
-Results-driven professional targeting ${jobTitle} roles, with experience and transferable strengths aligned to the job requirements. Skilled in communication, documentation, coordination, problem solving, and process improvement. Brings a structured approach to managing responsibilities, supporting stakeholders, and delivering reliable outcomes.
-
-CORE SKILLS
-${matched.length ? matched.map(k=>"- "+titleCase(k)).join("\n") : "- Communication\n- Documentation\n- Coordination\n- Problem Solving\n- Time Management"}
-${missing.length ? "\nRecommended keywords to add only if truthful:\n" + missing.map(k=>"- "+titleCase(k)).join("\n") : ""}
-
-PROFESSIONAL EXPERIENCE
-Rewrite your experience bullets using this ATS-friendly structure:
-- Managed and supported key responsibilities related to ${jobTitle}, ensuring accurate execution and timely completion.
-- Coordinated with internal and external stakeholders to improve communication, documentation, and workflow efficiency.
-- Maintained records, reports, and operational updates with attention to detail and compliance.
-- Supported process improvement by identifying gaps, organizing tasks, and following up on pending actions.
-- Delivered professional service while managing multiple priorities in a fast-paced environment.
-
-ORIGINAL CV CONTENT TO REVIEW AND REFINE
-${resume}
-
-ATS FORMATTING NOTES
-- Use simple headings.
-- Avoid tables, icons, images, and heavy design.
-- Use bullet points with action verbs.
-- Add measurable results where truthful.
-- Match relevant job-description keywords naturally.`;
+    function buildLocalImprovedCV(resumeText,jobDescription,jobTitle,aiData){
+      const resume=resumeText.trim();
+      const matched=(aiData.matchedKeywords||keywords(jobDescription).filter(k=>normalize(resume).includes(k))).slice(0,18);
+      const missing=(aiData.missingKeywords||keywords(jobDescription).filter(k=>!normalize(resume).includes(k))).slice(0,12);
+      return `ATS-FRIENDLY CV - ${jobTitle.toUpperCase()}\n\nPROFESSIONAL SUMMARY\nResults-driven professional targeting ${jobTitle} roles, with experience and transferable strengths aligned to the job requirements. Skilled in communication, documentation, coordination, problem solving, and process improvement.\n\nCORE SKILLS\n${matched.length?matched.map(k=>"- "+titleCase(k)).join("\n"):"- Communication\n- Documentation\n- Coordination\n- Problem Solving\n- Time Management"}${missing.length?"\n\nRecommended keywords to add only if truthful:\n"+missing.map(k=>"- "+titleCase(k)).join("\n"):""}\n\nPROFESSIONAL EXPERIENCE\n- Managed and supported key responsibilities related to ${jobTitle}, ensuring accurate execution and timely completion.\n- Coordinated with internal and external stakeholders to improve communication, documentation, and workflow efficiency.\n- Maintained records, reports, and operational updates with attention to detail and compliance.\n- Supported process improvement by identifying gaps, organizing tasks, and following up on pending actions.\n- Delivered professional service while managing multiple priorities in a fast-paced environment.\n\nORIGINAL CV CONTENT TO REVIEW AND REFINE\n${resume}\n\nATS FORMATTING NOTES\n- Use simple headings.\n- Avoid tables, icons, images, and heavy design.\n- Use bullet points with action verbs.\n- Add measurable results where truthful.\n- Match relevant job-description keywords naturally.`;
     }
 
-    function titleCase(text){
-      return String(text).replace(/\w\S*/g,w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase());
-    }
+    function titleCase(text){return String(text).replace(/\w\S*/g,w=>w.charAt(0).toUpperCase()+w.slice(1).toLowerCase())}
 
-
+    /* ── CV Preview renderer ── */
     function renderCVPreviewFromText(){
-      const text = document.getElementById("generatedCV").value.trim();
-      const shell = document.getElementById("cvPreviewShell");
-      const paper = document.getElementById("cvPaper");
-      if(!text){
-        shell.classList.remove("active");
-        paper.innerHTML="";
-        return;
-      }
-
-      const theme = document.getElementById("cvTheme")?.value || "modern";
-      paper.className = "cv-paper theme-" + theme;
-
-      const parsed = parseCVText(text);
-      paper.innerHTML = buildCVHTML(parsed);
+      const text=document.getElementById("generatedCV").value.trim();
+      const shell=document.getElementById("cvPreviewShell");
+      const paper=document.getElementById("cvPaper");
+      if(!text){shell.classList.remove("active");paper.innerHTML="";return}
+      const theme=document.getElementById("cvTheme")?.value||"modern";
+      paper.className="cv-paper theme-"+theme;
+      const parsed=parseCVText(text);
+      paper.innerHTML=buildCVHTML(parsed);
       shell.classList.add("active");
     }
 
     function parseCVText(text){
-      const lines = text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
-      const data = {
-        name: "Candidate Name",
-        role: document.getElementById("jobTitle").value || "Target Role",
-        contact: [],
-        summary: [],
-        skills: [],
-        experience: [],
-        education: [],
-        additional: []
-      };
-
-      const firstUseful = lines.find(line => line.length > 2 && !/ats-friendly cv|professional summary|summary/i.test(line));
-      if(firstUseful && firstUseful.length < 55 && !firstUseful.includes(":")) data.name = firstUseful.replace(/^[-•]\s*/,"");
-
-      let current = "summary";
+      const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+      const data={name:"Candidate Name",role:document.getElementById("jobTitle").value||"Target Role",contact:[],summary:[],skills:[],experience:[],education:[],additional:[]};
+      const firstUseful=lines.find(line=>line.length>2&&!/ats-friendly cv|professional summary|summary/i.test(line));
+      if(firstUseful&&firstUseful.length<55&&!firstUseful.includes(":")) data.name=firstUseful.replace(/^[-•]\s*/,"");
+      let current="summary";
       for(const line of lines){
-        const clean = line.replace(/^#+\s*/,"").trim();
-        const upper = clean.toUpperCase();
-
+        const clean=line.replace(/^#+\s*/,"").trim();
+        const upper=clean.toUpperCase();
         if(/^(PROFESSIONAL SUMMARY|SUMMARY|PROFILE)$/.test(upper)){current="summary";continue}
         if(/^(CORE SKILLS|SKILLS|TECHNICAL SKILLS|KEY SKILLS)$/.test(upper)){current="skills";continue}
         if(/^(PROFESSIONAL EXPERIENCE|WORK EXPERIENCE|EXPERIENCE|EMPLOYMENT HISTORY)$/.test(upper)){current="experience";continue}
         if(/^(EDUCATION|ACADEMIC BACKGROUND)$/.test(upper)){current="education";continue}
         if(/^(ADDITIONAL EXPERIENCE|LANGUAGES|CERTIFICATIONS|PROJECTS|ATS FORMATTING NOTES|ORIGINAL CV CONTENT TO REVIEW AND REFINE)$/.test(upper)){current="additional";continue}
-        if(clean === data.name) continue;
-
-        if(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(clean) || /\+?\d[\d\s().-]{7,}/.test(clean)){
-          data.contact.push(clean);
-          continue;
-        }
-
-        if(current === "skills"){
-          clean.split(/,|•|\|/).map(s=>s.replace(/^[-•]\s*/,"").trim()).filter(Boolean).forEach(s=>data.skills.push(s));
-        }else if(current === "experience"){
-          data.experience.push(clean);
-        }else if(current === "education"){
-          data.education.push(clean);
-        }else if(current === "additional"){
-          data.additional.push(clean);
-        }else{
-          data.summary.push(clean.replace(/^[-•]\s*/,""));
-        }
+        if(clean===data.name) continue;
+        if(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(clean)||/\+?\d[\d\s().-]{7,}/.test(clean)){data.contact.push(clean);continue}
+        if(current==="skills") clean.split(/,|•|\|/).map(s=>s.replace(/^[-•]\s*/,"").trim()).filter(Boolean).forEach(s=>data.skills.push(s));
+        else if(current==="experience") data.experience.push(clean);
+        else if(current==="education") data.education.push(clean);
+        else if(current==="additional") data.additional.push(clean);
+        else data.summary.push(clean.replace(/^[-•]\s*/,""));
       }
-
-      data.skills = [...new Set(data.skills)].slice(0,30);
+      data.skills=[...new Set(data.skills)].slice(0,30);
       if(!data.contact.length){
-        const original = document.getElementById("resumeText").value;
-        const email = original.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
-        const phone = original.match(/\+?\d[\d\s().-]{7,}/);
+        const original=document.getElementById("resumeText").value;
+        const email=original.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+        const phone=original.match(/\+?\d[\d\s().-]{7,}/);
         if(email) data.contact.push(email[0]);
         if(phone) data.contact.push(phone[0]);
       }
@@ -952,93 +863,45 @@ ATS FORMATTING NOTES
     }
 
     function buildCVHTML(data){
-      const summary = data.summary.length ? data.summary.slice(0,3).join(" ") : "Professional candidate with relevant experience aligned to the target role. Skilled in communication, documentation, coordination, and delivering reliable outcomes.";
-      const skills = data.skills.length ? data.skills : keywords(document.getElementById("jobDescription").value).slice(0,18).map(titleCase);
-      const exp = data.experience.length ? data.experience : [
-        "Managed responsibilities aligned to the target role while maintaining accuracy, communication, and timely completion.",
-        "Coordinated with stakeholders to support workflow efficiency, documentation, and service quality.",
-        "Improved task organization by tracking priorities, following up on pending actions, and maintaining clear records."
-      ];
-      const edu = data.education.length ? data.education : ["Education details to be added."];
-
-      return `
-        <div class="cv-header">
-          <div class="cv-name">${escapeHTML(data.name)}</div>
-          <div class="cv-role">${escapeHTML(data.role)}</div>
-          <div class="cv-contact">${data.contact.slice(0,5).map(c=>`<span>${escapeHTML(c)}</span>`).join("")}</div>
-        </div>
-        <div class="cv-body">
-          <section class="cv-section">
-            <h3>Professional Summary</h3>
-            <p>${escapeHTML(summary)}</p>
-          </section>
-          <section class="cv-section">
-            <h3>Core Skills</h3>
-            <div class="skill-grid">${skills.slice(0,24).map(s=>`<span class="skill-tag">${escapeHTML(titleCase(s))}</span>`).join("")}</div>
-          </section>
-          <section class="cv-section">
-            <h3>Professional Experience</h3>
-            <div class="cv-job">
-              <div class="cv-job-title">Relevant Experience</div>
-              <div class="cv-job-meta">ATS-optimized responsibilities and achievements</div>
-              <ul>${exp.slice(0,14).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul>
-            </div>
-          </section>
-          <section class="cv-section">
-            <h3>Education</h3>
-            <ul>${edu.slice(0,6).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul>
-          </section>
-          ${data.additional.length ? `<section class="cv-section"><h3>Additional Information</h3><ul>${data.additional.slice(0,8).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul></section>` : ""}
-        </div>`;
+      const summary=data.summary.length?data.summary.slice(0,3).join(" "):"Professional candidate with relevant experience aligned to the target role. Skilled in communication, documentation, coordination, and delivering reliable outcomes.";
+      const skills=data.skills.length?data.skills:keywords(document.getElementById("jobDescription").value).slice(0,18).map(titleCase);
+      const exp=data.experience.length?data.experience:["Managed responsibilities aligned to the target role while maintaining accuracy, communication, and timely completion.","Coordinated with stakeholders to support workflow efficiency, documentation, and service quality.","Improved task organization by tracking priorities, following up on pending actions, and maintaining clear records."];
+      const edu=data.education.length?data.education:["Education details to be added."];
+      return `<div class="cv-header"><div class="cv-name">${escapeHTML(data.name)}</div><div class="cv-role">${escapeHTML(data.role)}</div><div class="cv-contact">${data.contact.slice(0,5).map(c=>`<span>${escapeHTML(c)}</span>`).join("")}</div></div><div class="cv-body"><section class="cv-section"><h3>Professional Summary</h3><p>${escapeHTML(summary)}</p></section><section class="cv-section"><h3>Core Skills</h3><div class="skill-grid">${skills.slice(0,24).map(s=>`<span class="skill-tag">${escapeHTML(titleCase(s))}</span>`).join("")}</div></section><section class="cv-section"><h3>Professional Experience</h3><div class="cv-job"><div class="cv-job-title">Relevant Experience</div><div class="cv-job-meta">ATS-optimized responsibilities and achievements</div><ul>${exp.slice(0,14).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul></div></section><section class="cv-section"><h3>Education</h3><ul>${edu.slice(0,6).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul></section>${data.additional.length?`<section class="cv-section"><h3>Additional Information</h3><ul>${data.additional.slice(0,8).map(x=>`<li>${escapeHTML(x.replace(/^[-•]\s*/,""))}</li>`).join("")}</ul></section>`:""}</div>`;
     }
 
-    function escapeHTML(str){
-      return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-    }
+    function escapeHTML(str){return String(str).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
+    /* ── PDF download ── */
     async function downloadGeneratedPDF(){
       const text=document.getElementById("generatedCV").value.trim();
       if(!text){alert("Generate an improved CV first.");return}
       renderCVPreviewFromText();
       const element=document.getElementById("cvPaper");
-      const fileName=(document.getElementById("jobTitle").value || "ats-friendly-cv").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") + ".pdf";
-
-      const opt={
-        margin:0,
-        filename:fileName,
-        image:{type:"jpeg",quality:0.98},
-        html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff"},
-        jsPDF:{unit:"pt",format:"a4",orientation:"portrait"},
-        pagebreak:{mode:["avoid-all","css","legacy"]}
-      };
-
+      const fileName=(document.getElementById("jobTitle").value||"ats-friendly-cv").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+".pdf";
+      const opt={margin:0,filename:fileName,image:{type:"jpeg",quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff"},jsPDF:{unit:"pt",format:"a4",orientation:"portrait"},pagebreak:{mode:["avoid-all","css","legacy"]}};
       await html2pdf().set(opt).from(element).save();
     }
 
     async function copyGeneratedCV(){
       const text=document.getElementById("generatedCV").value.trim();
       if(!text){alert("Generate an improved CV first.");return}
-      await navigator.clipboard.writeText(text);
-      alert("Improved CV copied.");
+      try{await navigator.clipboard.writeText(text);alert("Improved CV copied.");}
+      catch{alert("Copy failed. Please select and copy manually.");}
     }
 
     function downloadGeneratedCV(){
       const text=document.getElementById("generatedCV").value.trim();
       if(!text){alert("Generate an improved CV first.");return}
       const blob=new Blob([text],{type:"text/plain"});
-      const link=document.createElement("a");
-      link.href=URL.createObjectURL(blob);
-      link.download="ats-friendly-cv.txt";
-      link.click();
-      URL.revokeObjectURL(link.href);
+      const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="ats-friendly-cv.txt";link.click();setTimeout(()=>URL.revokeObjectURL(link.href),30000);
     }
 
     function useGeneratedCV(){
       const text=document.getElementById("generatedCV").value.trim();
       if(!text){alert("Generate an improved CV first.");return}
       document.getElementById("resumeText").value=text;
-      if(typeof syncTextPreview==="function")syncTextPreview();
-      autoSave();
+      syncTextPreview();autoSave();
       alert("Improved CV is now loaded as the current CV.");
     }
 
@@ -1049,11 +912,17 @@ ATS FORMATTING NOTES
       document.getElementById("cvPaper").innerHTML="";
     }
 
+    /* ── Init ── */
     const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("visible")})},{threshold:.14});
     document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
-    if(localStorage.getItem("atsDark")==="1")document.body.classList.add("dark");
+
+    try{if(localStorage.getItem("atsDark")==="1") document.body.classList.add("dark")}catch(e){}
     restoreDraft();
-    checkApi();setInterval(checkApi,10000);
+    checkApi();
+
+    // Fixed: store interval ID and clear it on page unload to prevent memory leak
+    apiCheckInterval=setInterval(checkApi,10000);
+    window.addEventListener("beforeunload",()=>{if(apiCheckInterval) clearInterval(apiCheckInterval)});
   </script>
 </body>
 </html>
